@@ -1,14 +1,14 @@
-import React from "react";
-import BreadCrumb from "../components/BreadCrumb";
-import Meta from "../components/Meta";
-import { AiOutlineHome, AiOutlineMail } from "react-icons/ai";
-import { BiPhoneCall, BiInfoCircle } from "react-icons/bi";
-import Container from "../components/Container";
+import React from 'react';
+import { AiOutlineHome, AiOutlineMail } from 'react-icons/ai';
+import { BiInfoCircle, BiPhoneCall } from 'react-icons/bi';
+import BreadCrumb from '../components/BreadCrumb';
+import Container from '../components/Container';
+import Meta from '../components/Meta';
 
 const Contact = () => {
   return (
     <>
-      <Meta title={"Contact Us"} />
+      <Meta title={'Contact Us'} />
       <BreadCrumb title="Contact Us" />
       <Container class1="contact-wrapper py-5 home-wrapper-2">
         <div className="row">
@@ -77,12 +77,12 @@ const Contact = () => {
                     </li>
                     <li className="mb-3 d-flex gap-15 align-items-center">
                       <BiPhoneCall className="fs-5" />
-                      <a href="tel:+91 8264954234">+91 8264954234</a>
+                      <a href="tel:+91 7698026049">+91 7698026049</a>
                     </li>
                     <li className="mb-3 d-flex gap-15 align-items-center">
                       <AiOutlineMail className="fs-5" />
-                      <a href="mailto:navdeepdahiya753@gmail.com">
-                        navdeepdahiya753@gmail.com
+                      <a href="mailto:darshankalsariya29@gmail.com">
+                        darshankalsariya29@gmail.com
                       </a>
                     </li>
                     <li className="mb-3 d-flex gap-15 align-items-center">

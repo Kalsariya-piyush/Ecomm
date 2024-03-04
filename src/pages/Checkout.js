@@ -1,8 +1,8 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { BiArrowBack } from "react-icons/bi";
-import watch from "../images/watch.jpg";
-import Container from "../components/Container";
+import React from 'react';
+import { BiArrowBack } from 'react-icons/bi';
+import { Link } from 'react-router-dom';
+import Container from '../components/Container';
+import watch from '../images/watch.jpg';
 
 const Checkout = () => {
   return (
@@ -13,7 +13,7 @@ const Checkout = () => {
             <div className="checkout-left-data">
               <h3 className="website-name">Dev Corner</h3>
               <nav
-                style={{ "--bs-breadcrumb-divider": ">" }}
+                style={{ '--bs-breadcrumb-divider': '>' }}
                 aria-label="breadcrumb"
               >
                 <ol className="breadcrumb">
@@ -44,7 +44,7 @@ const Checkout = () => {
               </nav>
               <h4 className="title total">Contact Information</h4>
               <p className="user-details total">
-                Navdeep Dahiya (monud0232@gmail.com)
+                DArshan Kalsariya (dars29@gmail.com)
               </p>
               <h4 className="mb-3">Shipping Address</h4>
               <form
@@ -127,7 +127,7 @@ const Checkout = () => {
                 <div className="w-75 d-flex gap-10">
                   <div className="w-25 position-relative">
                     <span
-                      style={{ top: "-10px", right: "2px" }}
+                      style={{ top: '-10px', right: '2px' }}
                       className="badge bg-secondary text-white rounded-circle p-2 position-absolute"
                     >
                       1

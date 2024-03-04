@@ -1,38 +1,38 @@
-import React, { useState } from "react";
-import ReactStars from "react-rating-stars-component";
-import BreadCrumb from "../components/BreadCrumb";
-import Meta from "../components/Meta";
-import ProductCard from "../components/ProductCard";
-import ReactImageZoom from "react-image-zoom";
-import Color from "../components/Color";
-import { TbGitCompare } from "react-icons/tb";
-import { AiOutlineHeart } from "react-icons/ai";
-import { Link } from "react-router-dom";
-import watch from "../images/watch.jpg";
-import Container from "../components/Container";
+import React, { useState } from 'react';
+import { AiOutlineHeart } from 'react-icons/ai';
+import { TbGitCompare } from 'react-icons/tb';
+import ReactImageZoom from 'react-image-zoom';
+import ReactStars from 'react-rating-stars-component';
+import { Link } from 'react-router-dom';
+import BreadCrumb from '../components/BreadCrumb';
+import Color from '../components/Color';
+import Container from '../components/Container';
+import Meta from '../components/Meta';
+import ProductCard from '../components/ProductCard';
+import watch from '../images/watch.jpg';
 const SingleProduct = () => {
   const props = {
     width: 594,
     height: 600,
     zoomWidth: 600,
 
-    img: "https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?cs=srgb&dl=pexels-fernando-arcos-190819.jpg&fm=jpg",
+    img: 'https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?cs=srgb&dl=pexels-fernando-arcos-190819.jpg&fm=jpg',
   };
 
   const [orderedProduct, setorderedProduct] = useState(true);
   const copyToClipboard = (text) => {
-    console.log("text", text);
-    var textField = document.createElement("textarea");
+    console.log('text', text);
+    var textField = document.createElement('textarea');
     textField.innerText = text;
     document.body.appendChild(textField);
     textField.select();
-    document.execCommand("copy");
+    document.execCommand('copy');
     textField.remove();
   };
   const closeModal = () => {};
   return (
     <>
-      <Meta title={"Product Name"} />
+      <Meta title={'Product Name'} />
       <BreadCrumb title="Product Name" />
       <Container class1="main-product-wrapper py-5 home-wrapper-2">
         <div className="row">
@@ -147,7 +147,7 @@ const SingleProduct = () => {
                       min={1}
                       max={10}
                       className="form-control"
-                      style={{ width: "70px" }}
+                      style={{ width: '70px' }}
                       id=""
                     />
                   </div>
@@ -189,7 +189,7 @@ const SingleProduct = () => {
                     href="javascript:void(0);"
                     onClick={() => {
                       copyToClipboard(
-                        "https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?cs=srgb&dl=pexels-fernando-arcos-190819.jpg&fm=jpg"
+                        'https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?cs=srgb&dl=pexels-fernando-arcos-190819.jpg&fm=jpg'
                       );
                     }}
                   >

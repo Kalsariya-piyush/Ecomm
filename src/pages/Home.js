@@ -1,13 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Marquee from 'react-fast-marquee';
 import { Link } from 'react-router-dom';
 import BlogCard from '../components/BlogCard';
 import Container from '../components/Container';
 import ProductCard from '../components/ProductCard';
 import SpecialProduct from '../components/SpecialProduct';
+import { GetProductsHandler } from '../functions/products';
 // import { services } from "../utils/Data";
 
 const Home = () => {
+  const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const getProductDataHandler = async () => {
+    setIsLoading(true);
+    try {
+      const res = await GetProductsHandler();
+      setProducts(res);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getProductDataHandler();
+  }, []);
+
+  console.log('products > ', products);
+
   return (
     <>
       <Container class1="home-wrapper-1 py-5">

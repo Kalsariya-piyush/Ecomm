@@ -12,31 +12,30 @@ import { GetProductsHandler } from '../functions/products';
 const OurStore = () => {
   const [grid, setGrid] = useState(4);
   const [Brands, setBrands] = useState([]);
-  const [Products, setProducts] = useState([]);
+  const [products, setProducts] = useState([]);
   const [Categorys, setCategorys] = useState([]);
-  const [isLoadingCategory, setIsLoadingCategory] = useState(true);
-  const [isLoadingProduct, setIsLoadingProduct] = useState(true);
-  const [isLoadingBrand, setIsLoadingBrand] = useState(true);
+
+  const [isLoading, setIsLoading] = useState(true);
 
   const getBrandHandler = async () => {
-    setIsLoadingBrand(true);
+    setIsLoading(true);
     const res = await GetAllBrands();
     setBrands(res.data);
-    setIsLoadingBrand(false);
+    setIsLoading(false);
   };
 
   const getCategoryHandler = async () => {
-    setIsLoadingCategory(true);
+    setIsLoading(true);
     const res = await GetAllCategories();
     setCategorys(res.data);
-    setIsLoadingCategory(false);
+    setIsLoading(false);
   };
 
   const getProductDataHandler = async () => {
-    setIsLoadingProduct(true);
+    setIsLoading(true);
     const res = await GetProductsHandler();
     setProducts(res);
-    setIsLoadingProduct(false);
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -44,8 +43,6 @@ const OurStore = () => {
     getProductDataHandler();
     getCategoryHandler();
   }, []);
-
-  console.log(Brands.data);
 
   return (
     <>
@@ -232,13 +229,15 @@ const OurStore = () => {
                   </select>
                 </div>
                 <div className="d-flex align-items-center gap-10">
-                  <p className="totalproducts mb-0">21 Products</p>
+                  <p className="totalproducts mb-0">
+                    {products?.length} Product{products?.length > 1 ? 's' : ''}
+                  </p>
                   <div className="d-flex gap-10 align-items-center grid">
                     <img
                       onClick={() => {
                         setGrid(3);
                       }}
-                      src="images/gr4.svg"
+                      src="/images/gr4.svg"
                       className="d-block img-fluid"
                       alt="grid"
                     />
@@ -246,7 +245,7 @@ const OurStore = () => {
                       onClick={() => {
                         setGrid(4);
                       }}
-                      src="images/gr3.svg"
+                      src="/images/gr3.svg"
                       className="d-block img-fluid"
                       alt="grid"
                     />
@@ -254,7 +253,7 @@ const OurStore = () => {
                       onClick={() => {
                         setGrid(6);
                       }}
-                      src="images/gr2.svg"
+                      src="/images/gr2.svg"
                       className="d-block img-fluid"
                       alt="grid"
                     />
@@ -263,7 +262,7 @@ const OurStore = () => {
                       onClick={() => {
                         setGrid(12);
                       }}
-                      src="images/gr.svg"
+                      src="/images/gr.svg"
                       className="d-block img-fluid"
                       alt="grid"
                     />
@@ -273,11 +272,7 @@ const OurStore = () => {
             </div>
             <div className="products-list pb-5">
               <div className="d-flex gap-10 flex-wrap">
-                {Products.map((productItem) => (
-                  <>
-                    <ProductCard grid={grid} productItem={productItem} />
-                  </>
-                ))}
+                <ProductCard grid={grid} data={products} />
               </div>
             </div>
           </div>

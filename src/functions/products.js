@@ -50,4 +50,32 @@ const GetProductsHandler = async () => {
   return res.data;
 };
 
-export { AddProduct, GetProductsHandler, ImageUpload };
+const AddToWishList = async (values) => {
+  return await axios.put(`http://localhost:5000/api/product/wishlist`, values, {
+    headers: {
+      Authorization: `Bearer ${token()}`,
+      'Content-Type': 'application/json',
+    },
+    withCredentials: true,
+  });
+};
+
+const GetWishList = async () => {
+  const res = await axios.get(`http://localhost:5000/api/user/wishlist`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token()}`,
+    },
+    withCredentials: true,
+  });
+
+  return res.data;
+};
+
+export {
+  AddProduct,
+  AddToWishList,
+  GetProductsHandler,
+  GetWishList,
+  ImageUpload,
+};

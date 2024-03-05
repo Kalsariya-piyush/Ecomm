@@ -72,9 +72,24 @@ const GetWishList = async () => {
   return res.data;
 };
 
+const GetProductById = async (productId) => {
+  const res = await axios.get(
+    `http://localhost:5000/api/product/${productId}`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token()}`,
+      },
+      withCredentials: true,
+    }
+  );
+  return res.data;
+};
+
 export {
   AddProduct,
   AddToWishList,
+  GetProductById,
   GetProductsHandler,
   GetWishList,
   ImageUpload,

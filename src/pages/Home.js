@@ -5,30 +5,46 @@ import BlogCard from '../components/BlogCard';
 import Container from '../components/Container';
 import ProductCard from '../components/ProductCard';
 import SpecialProduct from '../components/SpecialProduct';
+import { GetBlogsHandler } from '../functions/blogs';
 import { GetProductsHandler } from '../functions/products';
 // import { services } from "../utils/Data";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [blogs, setBlogs] = useState(null);
+
+  // loading states
+  const [isLoadingProds, setIsLoadingProds] = useState(true);
+  const [isLoadingBlogs, setIsLoadingBlogs] = useState(true);
 
   const getProductDataHandler = async () => {
-    setIsLoading(true);
+    setIsLoadingProds(true);
     try {
       const res = await GetProductsHandler();
       setProducts(res);
     } catch (err) {
       console.log(err);
     } finally {
-      setIsLoading(false);
+      setIsLoadingProds(false);
+    }
+  };
+
+  const getBlogsDataHandler = async () => {
+    try {
+      setIsLoadingBlogs(true);
+      const res = await GetBlogsHandler();
+      setBlogs(res);
+    } catch (err) {
+      console.log('Error >> ', err);
+    } finally {
+      setIsLoadingBlogs(false);
     }
   };
 
   useEffect(() => {
     getProductDataHandler();
+    getBlogsDataHandler();
   }, []);
-
-  console.log('products > ', products);
 
   return (
     <>
@@ -199,10 +215,9 @@ const Home = () => {
           <div className="col-12">
             <h3 className="section-heading">Featured Collection</h3>
           </div>
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
+          <ProductCard
+            data={products?.filter((item) => item?.tags === 'featured')}
+          />
         </div>
       </Container>
 
@@ -278,12 +293,24 @@ const Home = () => {
           </div>
         </div>
         <div className="row">
-          <SpecialProduct />
-          <SpecialProduct />
-          <SpecialProduct />
-          <SpecialProduct />
+          {products?.length > 0 &&
+            products
+              ?.filter((item) => item?.tags === 'special')
+              ?.map((sProd) => (
+                <SpecialProduct
+                  key={sProd?._id}
+                  id={sProd?._id}
+                  title={sProd?.title}
+                  brand={sProd?.brand}
+                  totalRatings={sProd?.totalrating}
+                  price={sProd?.price}
+                  sold={sProd?.sold}
+                  quantity={sProd?.quantity}
+                />
+              ))}
         </div>
       </Container>
+
       <Container class1="popular-wrapper py-5 home-wrapper-2">
         <div className="row">
           <div className="col-12">
@@ -291,12 +318,12 @@ const Home = () => {
           </div>
         </div>
         <div className="row">
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
+          <ProductCard
+            data={products?.filter((item) => item?.tags === 'popular')}
+          />
         </div>
       </Container>
+
       <Container class1="marque-wrapper home-wrapper-2 py-5">
         <div className="row">
           <div className="col-12">
@@ -339,18 +366,14 @@ const Home = () => {
           </div>
         </div>
         <div className="row">
-          <div className="col-3">
-            <BlogCard />
-          </div>
-          <div className="col-3">
-            <BlogCard />
-          </div>
-          <div className="col-3">
-            <BlogCard />
-          </div>
-          <div className="col-3">
-            <BlogCard />
-          </div>
+          {!isLoadingBlogs &&
+            blogs &&
+            blogs?.length > 0 &&
+            blogs.slice(0, 4)?.map((blog) => (
+              <div key={blog?._id} className="col-3">
+                <BlogCard data={blog} />
+              </div>
+            ))}
         </div>
       </Container>
     </>

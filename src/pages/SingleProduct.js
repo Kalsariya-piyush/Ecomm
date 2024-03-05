@@ -1,35 +1,84 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AiOutlineHeart } from 'react-icons/ai';
 import { TbGitCompare } from 'react-icons/tb';
 import ReactImageZoom from 'react-image-zoom';
 import ReactStars from 'react-rating-stars-component';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import BreadCrumb from '../components/BreadCrumb';
 import Color from '../components/Color';
 import Container from '../components/Container';
 import Meta from '../components/Meta';
 import ProductCard from '../components/ProductCard';
+import { GetProductById, GetProductsHandler } from '../functions/products';
 import watch from '../images/watch.jpg';
 const SingleProduct = () => {
-  const props = {
-    width: 594,
-    height: 600,
-    zoomWidth: 600,
+  const [orderedProduct, setorderedProduct] = useState(true);
+  const location = useLocation();
 
-    img: 'https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?cs=srgb&dl=pexels-fernando-arcos-190819.jpg&fm=jpg',
+  const [productData, setProductData] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [products, setProducts] = useState([]);
+
+  // loading states
+  const [isLoadingProds, setIsLoadingProds] = useState(true);
+
+  const productId = location?.pathname?.split('/')[2];
+
+  const getProductDataHandler = async () => {
+    if (productId !== '') {
+      try {
+        setIsLoading(true);
+        const res = await GetProductById(productId);
+        setProductData(res);
+      } catch (err) {
+        console.log('Error >> ', err);
+      } finally {
+        setIsLoading(false);
+      }
+    }
   };
 
-  const [orderedProduct, setorderedProduct] = useState(true);
   const copyToClipboard = (text) => {
-    console.log('text', text);
-    var textField = document.createElement('textarea');
+    const textField = document.createElement('textarea');
     textField.innerText = text;
     document.body.appendChild(textField);
     textField.select();
     document.execCommand('copy');
     textField.remove();
   };
+
   const closeModal = () => {};
+
+  useEffect(() => {
+    getProductDataHandler();
+  }, [productId]);
+
+  const getPopularProductsDataHandler = async () => {
+    setIsLoadingProds(true);
+    try {
+      const res = await GetProductsHandler();
+      setProducts(res);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoadingProds(false);
+    }
+  };
+
+  useEffect(() => {
+    getPopularProductsDataHandler();
+  }, []);
+
+  const props = {
+    width: 594,
+    height: 600,
+    zoomWidth: 600,
+
+    img:
+      productData?.images?.[0]?.url ||
+      'https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?cs=srgb&dl=pexels-fernando-arcos-190819.jpg&fm=jpg',
+  };
+
   return (
     <>
       <Meta title={'Product Name'} />
@@ -43,50 +92,32 @@ const SingleProduct = () => {
               </div>
             </div>
             <div className="other-product-images d-flex flex-wrap gap-15">
-              <div>
-                <img
-                  src="https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?cs=srgb&dl=pexels-fernando-arcos-190819.jpg&fm=jpg"
-                  className="img-fluid"
-                  alt=""
-                />
-              </div>
-              <div>
-                <img
-                  src="https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?cs=srgb&dl=pexels-fernando-arcos-190819.jpg&fm=jpg"
-                  className="img-fluid"
-                  alt=""
-                />
-              </div>
-              <div>
-                <img
-                  src="https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?cs=srgb&dl=pexels-fernando-arcos-190819.jpg&fm=jpg"
-                  className="img-fluid"
-                  alt=""
-                />
-              </div>
-              <div>
-                <img
-                  src="https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?cs=srgb&dl=pexels-fernando-arcos-190819.jpg&fm=jpg"
-                  className="img-fluid"
-                  alt=""
-                />
-              </div>
+              {productData?.images?.map(({ url }) => (
+                <div key={url}>
+                  <img
+                    src={
+                      url ||
+                      'https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?cs=srgb&dl=pexels-fernando-arcos-190819.jpg&fm=jpg'
+                    }
+                    className="img-fluid"
+                    alt=""
+                  />
+                </div>
+              ))}
             </div>
           </div>
           <div className="col-6">
             <div className="main-product-details">
               <div className="border-bottom">
-                <h3 className="title">
-                  Kids Headphones Bulk 10 Pack Multi Colored For Students
-                </h3>
+                <h3 className="title">{productData?.title}</h3>
               </div>
               <div className="border-bottom py-3">
-                <p className="price">$ 100</p>
+                <p className="price">$ {productData?.price}</p>
                 <div className="d-flex align-items-center gap-10">
                   <ReactStars
                     count={5}
                     size={24}
-                    value={4}
+                    value={productData?.totalrating}
                     edit={false}
                     activeColor="#ffd700"
                   />
@@ -103,15 +134,15 @@ const SingleProduct = () => {
                 </div>
                 <div className="d-flex gap-10 align-items-center my-2">
                   <h3 className="product-heading">Brand :</h3>
-                  <p className="product-data">Havells</p>
+                  <p className="product-data">{productData?.brand}</p>
                 </div>
                 <div className="d-flex gap-10 align-items-center my-2">
                   <h3 className="product-heading">Category :</h3>
-                  <p className="product-data">Watch</p>
+                  <p className="product-data">{productData?.category}</p>
                 </div>
                 <div className="d-flex gap-10 align-items-center my-2">
                   <h3 className="product-heading">Tags :</h3>
-                  <p className="product-data">Watch</p>
+                  <p className="product-data">{productData?.tags}</p>
                 </div>
                 <div className="d-flex gap-10 align-items-center my-2">
                   <h3 className="product-heading">Availablity :</h3>
@@ -188,9 +219,7 @@ const SingleProduct = () => {
                   <a
                     href="javascript:void(0);"
                     onClick={() => {
-                      copyToClipboard(
-                        'https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?cs=srgb&dl=pexels-fernando-arcos-190819.jpg&fm=jpg'
-                      );
+                      copyToClipboard(window?.location?.href);
                     }}
                   >
                     Copy Product Link
@@ -206,12 +235,9 @@ const SingleProduct = () => {
           <div className="col-12">
             <h4>Description</h4>
             <div className="bg-white p-3">
-              <p>
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                Tenetur nisi similique illum aut perferendis voluptas, quisquam
-                obcaecati qui nobis officia. Voluptatibus in harum deleniti
-                labore maxime officia esse eos? Repellat?
-              </p>
+              <p
+                dangerouslySetInnerHTML={{ __html: productData?.description }}
+              />
             </div>
           </div>
         </div>
@@ -302,7 +328,11 @@ const SingleProduct = () => {
           </div>
         </div>
         <div className="row">
-          <ProductCard />
+          <ProductCard
+            data={products
+              ?.filter((item) => item?.tags === 'popular')
+              ?.slice(0, 4)}
+          />
         </div>
       </Container>
 

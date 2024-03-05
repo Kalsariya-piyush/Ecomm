@@ -91,9 +91,18 @@ const ProductCard = (props) => {
                 <button className="border-0 bg-transparent">
                   <img src={prodcompare} alt="compare" />
                 </button>
-                <button className="border-0 bg-transparent">
+                <Link
+                  to={`${
+                    location.pathname === '/'
+                      ? `/product/${prod?._id}`
+                      : location.pathname === `/product/${prod?._id}`
+                      ? `/product/${prod?._id}`
+                      : `${prod?._id}`
+                  }`}
+                  className="border-0 bg-transparent"
+                >
                   <img src={view} alt="view" />
-                </button>
+                </Link>
                 <button className="border-0 bg-transparent">
                   <img src={addcart} alt="addcart" />
                 </button>

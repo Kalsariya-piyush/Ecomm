@@ -1,13 +1,33 @@
-import React from "react";
-import BreadCrumb from "../components/BreadCrumb";
-import Meta from "../components/Meta";
-import BlogCard from "../components/BlogCard";
-import Container from "../components/Container";
+import React, { useEffect, useState } from 'react';
+import BlogCard from '../components/BlogCard';
+import BreadCrumb from '../components/BreadCrumb';
+import Container from '../components/Container';
+import Meta from '../components/Meta';
+import { GetBlogsHandler } from '../functions/blogs';
 
 const Blog = () => {
+  const [blogs, setBlogs] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const getBlogsDataHandler = async () => {
+    try {
+      setIsLoading(true);
+      const res = await GetBlogsHandler();
+      setBlogs(res);
+    } catch (err) {
+      console.log('Error >> ', err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getBlogsDataHandler();
+  }, []);
+
   return (
     <>
-      <Meta title={"Blogs"} />
+      <Meta title={'Blogs'} />
       <BreadCrumb title="Blogs" />
       <Container class1="blog-wrapper home-wrapper-2 py-5">
         <div className="row">
@@ -26,18 +46,18 @@ const Blog = () => {
           </div>
           <div className="col-9">
             <div className="row">
-              <div className="col-6 mb-3">
-                <BlogCard />
-              </div>
-              <div className="col-6 mb-3">
-                <BlogCard />
-              </div>
-              <div className="col-6 mb-3">
-                <BlogCard />
-              </div>
-              <div className="col-6 mb-3">
-                <BlogCard />
-              </div>
+              {!isLoading && !blogs?.length && (
+                <p className="text-center fs-3">No data</p>
+              )}
+
+              {!isLoading &&
+                blogs &&
+                blogs?.length > 0 &&
+                blogs?.map((blog) => (
+                  <div key={blog?._id} className="col-6 mb-3">
+                    <BlogCard data={blog} />
+                  </div>
+                ))}
             </div>
           </div>
         </div>

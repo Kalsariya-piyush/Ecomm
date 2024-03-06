@@ -1,15 +1,13 @@
+import { useFormik } from 'formik';
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
+import * as yup from 'yup';
 import BreadCrumb from '../components/BreadCrumb';
-import Meta from '../components/Meta';
-import { Link } from 'react-router-dom';
 import Container from '../components/Container';
 import CustomInput from '../components/CustomInput';
-import { SignUpHandler } from '../functions/auththenticaion';
-import { useFormik } from 'formik';
-import * as yup from 'yup';
+import Meta from '../components/Meta';
 import { getCharacterValidationError } from '../constants';
-import { toast } from 'react-toastify';
-import { useAuth } from '../context/auth';
+import { SignUpHandler } from '../functions/auththenticaion';
 
 const Signup = () => {
   const [isLoading, setIsLoading] = useState(false);

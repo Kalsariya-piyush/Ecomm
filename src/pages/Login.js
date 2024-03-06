@@ -1,19 +1,19 @@
+import { useFormik } from 'formik';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import * as yup from 'yup';
 import BreadCrumb from '../components/BreadCrumb';
-import Meta from '../components/Meta';
 import Container from '../components/Container';
 import CustomInput from '../components/CustomInput';
-import { useFormik } from 'formik';
-import * as yup from 'yup';
-import { LoginHandler } from '../functions/auththenticaion';
+import Meta from '../components/Meta';
 import { HandleSetCookie } from '../constants';
-import { toast } from 'react-toastify';
 import { useAuth } from '../context/auth';
+import { LoginHandler } from '../functions/auththenticaion';
 
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
-  // const { getUser } = useAuth();
+  const { getUser } = useAuth();
 
   const { handleBlur, handleChange, handleSubmit, errors, touched, values } =
     useFormik({

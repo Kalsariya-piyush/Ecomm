@@ -86,8 +86,19 @@ const GetProductById = async (productId) => {
   return res.data;
 };
 
+const AddToCart = async (values) => {
+  return await axios.post(`http://localhost:5000/api/user/cart`, values, {
+    headers: {
+      Authorization: `Bearer ${token()}`,
+      'Content-Type': 'application/json',
+    },
+    withCredentials: true,
+  });
+};
+
 export {
   AddProduct,
+  AddToCart,
   AddToWishList,
   GetProductById,
   GetProductsHandler,

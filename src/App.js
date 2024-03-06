@@ -1,29 +1,34 @@
-import React from "react";
-import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Layout from "./components/Layout";
-import Home from "./pages/Home";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
-import OurStore from "./pages/OurStore";
-import Blog from "./pages/Blog";
-import CompareProduct from "./pages/CompareProduct";
-import Wishlist from "./pages/Wishlist";
-import Login from "./pages/Login";
-import Forgotpassword from "./pages/Forgotpassword";
-import Signup from "./pages/Signup";
-import Resetpassword from "./pages/Resetpassword";
-import SingleBlog from "./pages/SingleBlog";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
-import RefundPloicy from "./pages/RefundPloicy";
-import ShippingPolicy from "./pages/ShippingPolicy";
-import TermAndContions from "./pages/TermAndContions";
-import SingleProduct from "./pages/SingleProduct";
-import Cart from "./pages/Cart";
-import Checkout from "./pages/Checkout";
+import React from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+import './App.css';
+import Layout from './components/Layout';
+import About from './pages/About';
+import Blog from './pages/Blog';
+import Cart from './pages/Cart';
+import Checkout from './pages/Checkout';
+import CompareProduct from './pages/CompareProduct';
+import Contact from './pages/Contact';
+import Forgotpassword from './pages/Forgotpassword';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import OurStore from './pages/OurStore';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import RefundPloicy from './pages/RefundPloicy';
+import Resetpassword from './pages/Resetpassword';
+import ShippingPolicy from './pages/ShippingPolicy';
+import Signup from './pages/Signup';
+import SingleBlog from './pages/SingleBlog';
+import SingleProduct from './pages/SingleProduct';
+import TermAndContions from './pages/TermAndContions';
+import Wishlist from './pages/Wishlist';
+
 function App() {
   return (
     <>
+      <ToastContainer />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>

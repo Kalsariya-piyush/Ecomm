@@ -4,22 +4,30 @@ import { TbGitCompare } from 'react-icons/tb';
 import ReactImageZoom from 'react-image-zoom';
 import ReactStars from 'react-rating-stars-component';
 import { Link, useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import BreadCrumb from '../components/BreadCrumb';
 import Color from '../components/Color';
 import Container from '../components/Container';
 import Meta from '../components/Meta';
 import ProductCard from '../components/ProductCard';
-import { GetProductById, GetProductsHandler } from '../functions/products';
+import {
+  AddToCart,
+  GetProductById,
+  GetProductsHandler,
+} from '../functions/products';
 import watch from '../images/watch.jpg';
 const SingleProduct = () => {
+  const [color, setColor] = useState(null);
+  const [quantity, setQuantity] = useState(1);
+
   const [orderedProduct, setorderedProduct] = useState(true);
   const location = useLocation();
 
   const [productData, setProductData] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
   const [products, setProducts] = useState([]);
 
   // loading states
+  const [isLoading, setIsLoading] = useState(false);
   const [isLoadingProds, setIsLoadingProds] = useState(true);
 
   const productId = location?.pathname?.split('/')[2];
@@ -62,6 +70,30 @@ const SingleProduct = () => {
       console.log(err);
     } finally {
       setIsLoadingProds(false);
+    }
+  };
+
+  const addToCartHandler = async () => {
+    if (!color) {
+      toast.error('Please select product color');
+      return false;
+    } else {
+      try {
+        const data = {
+          productId: productData?._id,
+          color: color,
+          price: 100,
+          quantity: quantity,
+        };
+
+        const res = await AddToCart(data);
+        if (res) {
+          toast.success('Product added successfully to your cart!');
+        }
+      } catch (error) {
+        toast.error('Failed Please try again');
+      } finally {
+      }
     }
   };
 
@@ -167,7 +199,7 @@ const SingleProduct = () => {
                 </div>
                 <div className="d-flex gap-10 flex-column mt-2 mb-3">
                   <h3 className="product-heading">Color :</h3>
-                  <Color />
+                  <Color color={productData?.color} setColor={setColor} />
                 </div>
                 <div className="d-flex align-items-center gap-15 flex-row mt-2 mb-3">
                   <h3 className="product-heading">Quantity :</h3>
@@ -180,14 +212,17 @@ const SingleProduct = () => {
                       className="form-control"
                       style={{ width: '70px' }}
                       id=""
+                      value={quantity}
+                      onChange={(e) => setQuantity(e.target.value)}
                     />
                   </div>
                   <div className="d-flex align-items-center gap-30 ms-5">
                     <button
                       className="button border-0"
-                      data-bs-toggle="modal"
-                      data-bs-target="#staticBackdrop"
+                      // data-bs-toggle="modal"
+                      // data-bs-target="#staticBackdrop"
                       type="button"
+                      onClick={() => addToCartHandler()}
                     >
                       Add to Cart
                     </button>

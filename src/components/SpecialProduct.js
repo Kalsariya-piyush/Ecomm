@@ -10,6 +10,7 @@ const SpecialProduct = ({
   sold,
   quantity,
   id,
+  image,
 }) => {
   return (
     <>
@@ -17,7 +18,17 @@ const SpecialProduct = ({
         <div className="special-product-card">
           <div className="d-flex justify-content-between">
             <div>
-              <img src="images/watch.jpg" className="img-fluid" alt="watch" />
+              <img
+                src={image || 'images/watch.jpg'}
+                className="img-fluid"
+                alt="watch"
+                width={300}
+                height={300}
+                style={{
+                  aspectRatio: 1 / 1,
+                  objectFit: 'cover',
+                }}
+              />
             </div>
             <div className="special-product-content">
               <h5 className="brand">{brand}</h5>

@@ -40,7 +40,7 @@ const AddProduct = async (values) => {
 };
 
 const GetProductsHandler = async () => {
-  const res = await axios.get(`http://localhost:5000/api/product`, {
+  const res = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/product`, {
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token()}`,
@@ -51,30 +51,37 @@ const GetProductsHandler = async () => {
 };
 
 const AddToWishList = async (values) => {
-  return await axios.put(`http://localhost:5000/api/product/wishlist`, values, {
-    headers: {
-      Authorization: `Bearer ${token()}`,
-      'Content-Type': 'application/json',
-    },
-    withCredentials: true,
-  });
+  return await axios.put(
+    `${process.env.REACT_APP_API_ENDPOINT}/product/wishlist`,
+    values,
+    {
+      headers: {
+        Authorization: `Bearer ${token()}`,
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true,
+    }
+  );
 };
 
 const GetWishList = async () => {
-  const res = await axios.get(`http://localhost:5000/api/user/wishlist`, {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token()}`,
-    },
-    withCredentials: true,
-  });
+  const res = await axios.get(
+    `${process.env.REACT_APP_API_ENDPOINT}/user/wishlist`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token()}`,
+      },
+      withCredentials: true,
+    }
+  );
 
   return res.data;
 };
 
 const GetProductById = async (productId) => {
   const res = await axios.get(
-    `http://localhost:5000/api/product/${productId}`,
+    `${process.env.REACT_APP_API_ENDPOINT}/product/${productId}`,
     {
       headers: {
         'Content-Type': 'application/json',
@@ -87,7 +94,21 @@ const GetProductById = async (productId) => {
 };
 
 const AddToCart = async (values) => {
-  return await axios.post(`http://localhost:5000/api/user/cart`, values, {
+  return await axios.post(
+    `${process.env.REACT_APP_API_ENDPOINT}/user/cart`,
+    values,
+    {
+      headers: {
+        Authorization: `Bearer ${token()}`,
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true,
+    }
+  );
+};
+
+const GetCart = async () => {
+  return await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/user/cart`, {
     headers: {
       Authorization: `Bearer ${token()}`,
       'Content-Type': 'application/json',
@@ -100,6 +121,7 @@ export {
   AddProduct,
   AddToCart,
   AddToWishList,
+  GetCart,
   GetProductById,
   GetProductsHandler,
   GetWishList,

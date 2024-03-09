@@ -1,15 +1,39 @@
-import React from "react";
-import BreadCrumb from "../components/BreadCrumb";
-import Meta from "../components/Meta";
-import watch from "../images/watch.jpg";
-import { AiFillDelete } from "react-icons/ai";
-import { Link } from "react-router-dom";
-import Container from "../components/Container";
+import React, { useEffect, useState } from 'react';
+import { AiFillDelete } from 'react-icons/ai';
+import { Link } from 'react-router-dom';
+import BreadCrumb from '../components/BreadCrumb';
+import Container from '../components/Container';
+import Meta from '../components/Meta';
+import { useAuth } from '../context/auth';
+import { GetCart } from '../functions/products';
+import watch from '../images/watch.jpg';
 
 const Cart = () => {
+  const { currentUser, isLoadingUser } = useAuth();
+
+  const [isLoading, setIsLoading] = useState(true);
+
+  const getUserCart = () => {
+    setIsLoading(true);
+    GetCart()
+      .then((res) => {
+        console.log('Res > ', res);
+      })
+      .catch((err) => {
+        console.log('rtt .> ', err);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    if (currentUser && currentUser?._id && !isLoadingUser) getUserCart();
+  }, [currentUser, isLoadingUser]);
+
   return (
     <>
-      <Meta title={"Cart"} />
+      <Meta title={'Cart'} />
       <BreadCrumb title="Cart" />
       <Container class1="cart-wrapper home-wrapper-2 py-5">
         <div className="row">

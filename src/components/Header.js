@@ -6,7 +6,12 @@ import compare from '../images/compare.svg';
 import menu from '../images/menu.svg';
 import user from '../images/user.svg';
 import wishlist from '../images/wishlist.svg';
+import { useAuth } from '../context/auth';
+import { HandleLogout } from '../functions/auththenticaion';
+
 const Header = () => {
+  const { currentUser, isLoadingUser, LogoutHandler } = useAuth();
+
   return (
     <>
       <header className="header-top-strip py-3">
@@ -94,15 +99,30 @@ const Header = () => {
                   </Link>
                 </div>
                 <div>
-                  <Link
-                    to="/login"
-                    className="d-flex align-items-center gap-10 text-white"
-                  >
-                    <img src={user} alt="user" />
-                    <p className="mb-0">
-                      Log in <br /> My Account
-                    </p>
-                  </Link>
+                  {!isLoadingUser && (
+                    <>
+                      {currentUser ? (
+                        <div
+                          onClick={() => LogoutHandler()}
+                          className="d-flex align-items-center gap-10 text-white cursor-pointer"
+                        >
+                          <img src={user} alt="user" />
+                          <p className="mb-0">
+                            {currentUser?.firstname} {currentUser?.lastname}{' '}
+                            <br /> My Account
+                          </p>
+                        </div>
+                      ) : (
+                        <Link
+                          to="/login"
+                          className="d-flex align-items-center gap-10 text-white"
+                        >
+                          <img src={user} alt="user" />
+                          <p className="mb-0">Log in</p>
+                        </Link>
+                      )}
+                    </>
+                  )}
                 </div>
                 <div>
                   <Link

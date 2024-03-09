@@ -49,10 +49,10 @@ const Footer = () => {
                   +91 7698026049
                 </a>
                 <a
-                  href="mailto:darshankalsariya29@gmail.com"
+                  href="mailto:clicon@gmail.com"
                   className="mt-2 d-block mb-0 text-white"
                 >
-                  darshankalsariya29@gmail.com
+                  clicon@gmail.com
                 </a>
                 <div className="social_icons d-flex align-items-center gap-30 mt-4">
                   <a className="text-white" href="#">

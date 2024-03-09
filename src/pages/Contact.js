@@ -71,8 +71,7 @@ const Contact = () => {
                     <li className="mb-3 d-flex gap-15 align-items-center">
                       <AiOutlineHome className="fs-5" />
                       <address className="mb-0">
-                        Hno:277 , Near village chopal , Mandaura, Sonipat,
-                        Haryana
+                        A-38 rang darshan krupa soc, surat, gujarat
                       </address>
                     </li>
                     <li className="mb-3 d-flex gap-15 align-items-center">
@@ -81,9 +80,7 @@ const Contact = () => {
                     </li>
                     <li className="mb-3 d-flex gap-15 align-items-center">
                       <AiOutlineMail className="fs-5" />
-                      <a href="mailto:darshankalsariya29@gmail.com">
-                        darshankalsariya29@gmail.com
-                      </a>
+                      <a href="mailto:clicon@gmail.coms">clicon@gmail.com</a>
                     </li>
                     <li className="mb-3 d-flex gap-15 align-items-center">
                       <BiInfoCircle className="fs-5" />

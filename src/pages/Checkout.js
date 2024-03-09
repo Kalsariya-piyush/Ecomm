@@ -43,9 +43,7 @@ const Checkout = () => {
                 </ol>
               </nav>
               <h4 className="title total">Contact Information</h4>
-              <p className="user-details total">
-                DArshan Kalsariya (dars29@gmail.com)
-              </p>
+              <p className="user-details total">clicon (clicon@gmail.com)</p>
               <h4 className="mb-3">Shipping Address</h4>
               <form
                 action=""

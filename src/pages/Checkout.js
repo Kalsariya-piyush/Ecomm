@@ -2,14 +2,17 @@ import axios from 'axios';
 import { useFormik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import { BiArrowBack } from 'react-icons/bi';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import Container from '../components/Container';
 import { config, useAuth } from '../context/auth';
-import { createOrder } from '../functions/order';
+import { clearCart, createOrder } from '../functions/order';
 import { GetCart } from '../functions/products';
+import { toast } from 'react-toastify';
 
 const Checkout = () => {
+  const navigate = useNavigate();
+
   const { currentUser, isLoadingUser } = useAuth();
 
   const [isLoading, setIsLoading] = useState(true);
@@ -19,8 +22,8 @@ const Checkout = () => {
     razorpayPaymentId: '',
     razorpayOrderId: '',
   });
+  const [cartProducts, setCartProducts] = useState([]);
 
-  console.log(paymentInfo, shippingInfo);
   const [totalAmount, setTotalAmount] = useState(0);
 
   const getUserCart = () => {
@@ -36,6 +39,19 @@ const Checkout = () => {
         setIsLoading(false);
       });
   };
+
+  useEffect(() => {
+    const data = cartItem?.map((data) => {
+      return {
+        product: data?.productId?._id,
+        quantity: data?.quantity,
+        color: data?.color?._id,
+        price: data?.price,
+      };
+    });
+
+    setCartProducts(data);
+  }, [cartItem]);
 
   const { handleBlur, handleChange, handleSubmit, errors, touched, values } =
     useFormik({
@@ -62,7 +78,7 @@ const Checkout = () => {
 
       onSubmit: (value) => {
         setShippingInfo(value);
-        checkOutHandler();
+        checkOutHandler(value);
       },
     });
 
@@ -91,7 +107,7 @@ const Checkout = () => {
     });
   };
 
-  const checkOutHandler = async () => {
+  const checkOutHandler = async (shippingInfoData) => {
     const res = await loadScript(
       'https://checkout.razorpay.com/v1/checkout.js'
     );
@@ -101,7 +117,7 @@ const Checkout = () => {
     }
     const result = await axios.post(
       'http://localhost:5000/api/user/order/checkout',
-      {},
+      { amount: totalAmount + 5 },
       config
     );
     if (!result) {
@@ -132,18 +148,25 @@ const Checkout = () => {
           config
         );
 
-        setPaymentInfo({
+        const payInfo = {
           razorpayPaymentId: response.razorpay_payment_id,
           razorpayOrderId: response.razorpay_order_id,
-        });
+        };
+
+        setPaymentInfo(payInfo);
 
         await createOrder({
           totalPrice: totalAmount,
           totalPriceAfterDiscount: totalAmount,
-          orderItems: [],
-          paymentInfo,
-          shippingInfo,
+          orderItems: cartProducts,
+          paymentInfo: payInfo,
+          shippingInfo: shippingInfoData,
         });
+
+        await clearCart();
+        toast.success('Order created');
+
+        navigate('/');
         // alert(result);
       },
       prefill: {

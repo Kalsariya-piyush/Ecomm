@@ -1,13 +1,12 @@
 import React from 'react';
 import { BsSearch } from 'react-icons/bs';
 import { Link, NavLink } from 'react-router-dom';
+import { useAuth } from '../context/auth';
 import cart from '../images/cart.svg';
 import compare from '../images/compare.svg';
 import menu from '../images/menu.svg';
 import user from '../images/user.svg';
 import wishlist from '../images/wishlist.svg';
-import { useAuth } from '../context/auth';
-import { HandleLogout } from '../functions/auththenticaion';
 
 const Header = () => {
   const { currentUser, isLoadingUser, LogoutHandler } = useAuth();

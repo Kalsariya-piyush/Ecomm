@@ -5,6 +5,14 @@ import { HandleSetCookie, token } from '../constants';
 
 export const AuthContext = createContext();
 
+export const config = {
+  headers: {
+    Authorization: `Bearer ${token()}`,
+    'Content-Type': 'application/json',
+  },
+  withCredentials: true,
+};
+
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [isLoadingUser, setIsLoadingUser] = useState(true);

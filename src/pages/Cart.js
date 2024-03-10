@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { AiFillDelete } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import BreadCrumb from '../components/BreadCrumb';
 import Container from '../components/Container';
 import Meta from '../components/Meta';
@@ -26,6 +27,19 @@ const Cart = () => {
       })
       .finally(() => {
         setIsLoading(false);
+      });
+  };
+
+  const deleteProductFromCart = (cartId) => {
+    RemoveCartProduct(cartId)
+      ?.then((res) => {
+        if (res) {
+          getUserCart();
+          toast?.success('Product deleted from cart successfully !!');
+        }
+      })
+      .catch(() => {
+        toast?.error('Failed please try again !!');
       });
   };
 
@@ -59,6 +73,7 @@ const Cart = () => {
               </div>
             )}
             {cartItem &&
+              cartItem?.length > 0 &&
               !isLoading &&
               cartItem?.map((item, index) => (
                 <div
@@ -99,7 +114,7 @@ const Cart = () => {
                       /> */}
                       {item?.quantity}
                     </div>
-                    <div onClick={() => RemoveCartProduct(item?._id)}>
+                    <div onClick={() => deleteProductFromCart(item?._id)}>
                       <AiFillDelete className="text-danger " />
                     </div>
                   </div>
@@ -110,21 +125,29 @@ const Cart = () => {
                   </div>
                 </div>
               ))}
+
+            {!cartItem?.length && !isLoading && (
+              <p className="text-center fs-4" style={{ marginTop: 20 }}>
+                No Products in your cart
+              </p>
+            )}
           </div>
-          <div className="col-12 py-2 mt-4">
-            <div className="d-flex justify-content-between align-items-baseline">
-              <Link to="/product" className="button">
-                Continue To Shopping
-              </Link>
-              <div className="d-flex flex-column align-items-end">
-                <h4>SubTotal: $ {totalAmount}</h4>
-                <p>Taxes and shipping calculated at checkout</p>
-                <Link to="/checkout" className="button">
-                  Checkout
+          {cartItem && cartItem?.length > 0 && (
+            <div className="col-12 py-2 mt-4">
+              <div className="d-flex justify-content-between align-items-baseline">
+                <Link to="/product" className="button">
+                  Continue To Shopping
                 </Link>
+                <div className="d-flex flex-column align-items-end">
+                  <h4>SubTotal: $ {totalAmount}</h4>
+                  <p>Taxes and shipping calculated at checkout</p>
+                  <Link to="/checkout" className="button">
+                    Checkout
+                  </Link>
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
       </Container>
     </>

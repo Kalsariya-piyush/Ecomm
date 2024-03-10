@@ -306,6 +306,7 @@ const Home = () => {
                   price={sProd?.price}
                   sold={sProd?.sold}
                   quantity={sProd?.quantity}
+                  image={sProd?.images[0]?.url}
                 />
               ))}
         </div>

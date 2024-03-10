@@ -132,8 +132,7 @@ const deleteCartProduct = async () => {
 
 const RemoveCartProduct = async (productId) => {
   return await axios.delete(
-    `${process.env.REACT_APP_API_ENDPOINT}/user//delete-product-cart`,
-    { cartItemId: productId },
+    `${process.env.REACT_APP_API_ENDPOINT}/user/delete-product-cart/${productId}`,
     {
       headers: {
         Authorization: `Bearer ${token()}`,

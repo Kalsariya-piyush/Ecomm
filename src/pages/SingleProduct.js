@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { AiOutlineHeart } from 'react-icons/ai';
-import { TbGitCompare } from 'react-icons/tb';
 import ReactImageZoom from 'react-image-zoom';
 import ReactStars from 'react-rating-stars-component';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import BreadCrumb from '../components/BreadCrumb';
 import Color from '../components/Color';
@@ -12,6 +10,7 @@ import Meta from '../components/Meta';
 import ProductCard from '../components/ProductCard';
 import {
   AddToCart,
+  GetCart,
   GetProductById,
   GetProductsHandler,
 } from '../functions/products';
@@ -22,9 +21,11 @@ const SingleProduct = () => {
 
   const [orderedProduct, setorderedProduct] = useState(true);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const [productData, setProductData] = useState(null);
   const [products, setProducts] = useState([]);
+  const [isAlreadyAdded, setIsAlreadyAdded] = useState(false);
 
   // loading states
   const [isLoading, setIsLoading] = useState(false);
@@ -73,32 +74,58 @@ const SingleProduct = () => {
     }
   };
 
-  const addToCartHandler = async () => {
-    if (!color) {
-      toast.error('Please select product color');
-      return false;
-    } else {
-      try {
-        const data = {
-          productId: productData?._id,
-          color: color,
-          price: 100,
-          quantity: quantity,
-        };
-
-        const res = await AddToCart(data);
-        if (res) {
-          toast.success('Product added successfully to your cart!');
+  const getUserCart = () => {
+    setIsLoading(true);
+    GetCart()
+      .then((res) => {
+        for (let index = 0; index < res?.data?.length; index++) {
+          if (productId === res?.data[index]?.productId?._id) {
+            setIsAlreadyAdded(true);
+          }
         }
-      } catch (error) {
-        toast.error('Failed Please try again');
-      } finally {
+      })
+      .catch((err) => {
+        console.log('rtt .> ', err);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+
+  const addToCartHandler = async () => {
+    if (!isAlreadyAdded) {
+      if (!color) {
+        toast.error('Please select product color');
+        return false;
+      } else {
+        try {
+          const data = {
+            productId: productData?._id,
+            color: color,
+            price: productData?.price,
+            quantity: quantity,
+          };
+
+          const res = await AddToCart(data);
+          if (res) {
+            toast.success('Product added successfully to your cart!');
+            setTimeout(() => {
+              navigate('/cart');
+            }, 400);
+          }
+        } catch (error) {
+          toast.error('Failed Please try again');
+        } finally {
+        }
       }
+    } else {
+      navigate('/cart');
     }
   };
 
   useEffect(() => {
     getPopularProductsDataHandler();
+    getUserCart();
   }, []);
 
   const props = {
@@ -153,7 +180,7 @@ const SingleProduct = () => {
                     edit={false}
                     activeColor="#ffd700"
                   />
-                  <p className="mb-0 t-review">( 2 Reviews )</p>
+                  {/* <p className="mb-0 t-review">( 2 Reviews )</p> */}
                 </div>
                 <a className="review-btn" href="#review">
                   Write a Review
@@ -197,26 +224,37 @@ const SingleProduct = () => {
                     </span>
                   </div>
                 </div> */}
-                <div className="d-flex gap-10 flex-column mt-2 mb-3">
-                  <h3 className="product-heading">Color :</h3>
-                  <Color color={productData?.color} setColor={setColor} />
-                </div>
-                <div className="d-flex align-items-center gap-15 flex-row mt-2 mb-3">
-                  <h3 className="product-heading">Quantity :</h3>
-                  <div className="">
-                    <input
-                      type="number"
-                      name=""
-                      min={1}
-                      max={10}
-                      className="form-control"
-                      style={{ width: '70px' }}
-                      id=""
-                      value={quantity}
-                      onChange={(e) => setQuantity(e.target.value)}
-                    />
+                {!isAlreadyAdded && (
+                  <div className="d-flex gap-10 flex-column mt-2 mb-3">
+                    <h3 className="product-heading">Color :</h3>
+                    <Color color={productData?.color} setColor={setColor} />
                   </div>
-                  <div className="d-flex align-items-center gap-30 ms-5">
+                )}
+
+                <div className="d-flex align-items-center gap-15 flex-row mt-2 mb-3">
+                  {!isAlreadyAdded && (
+                    <>
+                      <h3 className="product-heading">Quantity :</h3>
+                      <div className="">
+                        <input
+                          type="number"
+                          name=""
+                          min={1}
+                          max={10}
+                          className="form-control"
+                          style={{ width: '70px' }}
+                          id=""
+                          value={quantity}
+                          onChange={(e) => setQuantity(e.target.value)}
+                        />
+                      </div>
+                    </>
+                  )}
+                  <div
+                    className={`d-flex align-items-center gap-30 ${
+                      !isAlreadyAdded ? 'ms-5' : ''
+                    }`}
+                  >
                     <button
                       className="button border-0"
                       // data-bs-toggle="modal"
@@ -224,12 +262,12 @@ const SingleProduct = () => {
                       type="button"
                       onClick={() => addToCartHandler()}
                     >
-                      Add to Cart
+                      {!isAlreadyAdded ? 'Add to Cart' : 'Go To Cart'}
                     </button>
-                    <button className="button signup">Buy It Now</button>
+                    {/* <button className="button signup">Buy It Now</button> */}
                   </div>
                 </div>
-                <div className="d-flex align-items-center gap-15">
+                {/* <div className="d-flex align-items-center gap-15">
                   <div>
                     <a href="">
                       <TbGitCompare className="fs-5 me-2" /> Add to Compare
@@ -240,7 +278,7 @@ const SingleProduct = () => {
                       <AiOutlineHeart className="fs-5 me-2" /> Add to Wishlist
                     </a>
                   </div>
-                </div>
+                </div> */}
                 <div className="d-flex gap-10 flex-column  my-3">
                   <h3 className="product-heading">Shipping & Returns :</h3>
                   <p className="product-data">

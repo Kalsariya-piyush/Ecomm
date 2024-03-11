@@ -481,6 +481,20 @@ footer .input-group-text {
   border-radius: 50%;
 }
 
+.colorsList {
+  list-style-type: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.colorsList li {
+  width: 15px;
+  height: 15px;
+  background-color: red;
+  border-radius: 50%;
+}
+
 .random-products h5 {
   font-size: 14px;
   margin-bottom: 8px;

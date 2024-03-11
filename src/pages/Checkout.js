@@ -377,8 +377,12 @@ const Checkout = () => {
                     <div className="w-75 d-flex gap-10">
                       <div className="w-25 position-relative">
                         <span
-                          style={{ top: '-10px', right: '-2px' }}
-                          className="badge bg-secondary text-white rounded-circle p-2 position-absolute"
+                          style={{
+                            top: '-10px',
+                            right: '-2px',
+                            minWidth: 20,
+                          }}
+                          className="badge bg-secondary text-white rounded-circle p-1 position-absolute"
                         >
                           {item?.quantity}
                         </span>
@@ -392,7 +396,7 @@ const Checkout = () => {
                         <h5 className="total-price">
                           {item?.productId?.title}
                         </h5>
-                        <ul className="colors ps-0">
+                        <ul className="colorsList ps-0">
                           <li style={{ background: item?.color?.title }} />
                         </ul>
                       </div>

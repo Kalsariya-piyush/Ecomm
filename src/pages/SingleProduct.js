@@ -233,22 +233,31 @@ const SingleProduct = () => {
 
                 <div className="d-flex align-items-center gap-15 flex-row mt-2 mb-3">
                   {!isAlreadyAdded && (
-                    <>
-                      <h3 className="product-heading">Quantity :</h3>
-                      <div className="">
-                        <input
-                          type="number"
-                          name=""
-                          min={1}
-                          max={10}
-                          className="form-control"
-                          style={{ width: '70px' }}
-                          id=""
-                          value={quantity}
-                          onChange={(e) => setQuantity(e.target.value)}
-                        />
+                    <div className="d-flex flex-column">
+                      <div className="d-flex align-items-center gap-15">
+                        <h3 className="product-heading">Quantity :</h3>
+                        <div className="">
+                          <input
+                            type="number"
+                            name=""
+                            min={1}
+                            max={productData?.quantity}
+                            className="form-control"
+                            style={{ width: '70px' }}
+                            id=""
+                            value={quantity}
+                            onChange={(e) => setQuantity(e.target.value)}
+                          />
+                        </div>
                       </div>
-                    </>
+                      {quantity &&
+                        productData?.quantity &&
+                        quantity > productData?.quantity && (
+                          <p className="text-danger">
+                            you can only {productData?.quantity} quantity add{' '}
+                          </p>
+                        )}
+                    </div>
                   )}
                   <div
                     className={`d-flex align-items-center gap-30 ${
@@ -372,7 +381,7 @@ const SingleProduct = () => {
               <div className="reviews mt-4">
                 <div className="review">
                   <div className="d-flex gap-10 align-items-center">
-                    <h6 className="mb-0">Navdeep</h6>
+                    <h6 className="mb-0">clicon</h6>
                     <ReactStars
                       count={5}
                       size={24}

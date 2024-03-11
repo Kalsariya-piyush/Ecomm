@@ -67,10 +67,12 @@ const Cart = () => {
               <h4 className="cart-col-3">Quantity</h4>
               <h4 className="cart-col-4">Total</h4>
             </div>
-            {isLoading && (
+            {isLoading && !cartItem ? (
               <div className="cart-data py-3 mb-2 d-flex justify-content-between align-items-center">
                 <span class="loader mx-auto"></span>
               </div>
+            ) : (
+              <>{!cartItem && <p className="text-center fs-3">No data</p>}</>
             )}
             {cartItem &&
               cartItem?.length > 0 &&
@@ -114,7 +116,10 @@ const Cart = () => {
                       /> */}
                       {item?.quantity}
                     </div>
-                    <div onClick={() => deleteProductFromCart(item?._id)}>
+                    <div
+                      onClick={() => deleteProductFromCart(item?._id)}
+                      style={{ cursor: 'pointer' }}
+                    >
                       <AiFillDelete className="text-danger " />
                     </div>
                   </div>

@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { BsSearch } from 'react-icons/bs';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/auth';
+import { GetCart } from '../functions/products';
 import cart from '../images/cart.svg';
 import compare from '../images/compare.svg';
 import menu from '../images/menu.svg';
@@ -10,6 +11,37 @@ import wishlist from '../images/wishlist.svg';
 
 const Header = () => {
   const { currentUser, isLoadingUser, LogoutHandler } = useAuth();
+
+  const [, setIsLoading] = useState(true);
+  const [cartItem, setCartItem] = useState([]);
+  const navigate = useNavigate();
+
+  const [totalAmount, setTotalAmount] = useState(0);
+
+  const getUserCart = () => {
+    setIsLoading(true);
+    GetCart()
+      .then((res) => {
+        setCartItem(res?.data);
+      })
+      .catch((err) => {
+        console.log('rtt .> ', err);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    if (currentUser && currentUser?._id && !isLoadingUser) getUserCart();
+  }, [currentUser, isLoadingUser, navigate, cartItem]);
+
+  useEffect(() => {
+    const total = cartItem?.reduce((acc, item) => {
+      return acc + item?.productId?.price * item?.quantity;
+    }, 0);
+    setTotalAmount(total);
+  }, [cartItem]);
 
   return (
     <>
@@ -130,8 +162,10 @@ const Header = () => {
                   >
                     <img src={cart} alt="cart" />
                     <div className="d-flex flex-column gap-10">
-                      <span className="badge bg-white text-dark">0</span>
-                      <p className="mb-0">$ 500</p>
+                      <span className="badge bg-white text-dark">
+                        {cartItem.length}
+                      </span>
+                      {totalAmount && <p className="mb-0">$ {totalAmount}</p>}
                     </div>
                   </Link>
                 </div>

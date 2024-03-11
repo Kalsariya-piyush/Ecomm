@@ -34,7 +34,7 @@ const Header = () => {
 
   useEffect(() => {
     if (currentUser && currentUser?._id && !isLoadingUser) getUserCart();
-  }, [currentUser, isLoadingUser, navigate, cartItem]);
+  }, [currentUser, isLoadingUser, navigate]);
 
   useEffect(() => {
     const total = cartItem?.reduce((acc, item) => {
@@ -219,6 +219,7 @@ const Header = () => {
                   <div className="d-flex align-items-center gap-15">
                     <NavLink to="/">Home</NavLink>
                     <NavLink to="/product">Our Store</NavLink>
+                    <NavLink to="/my-orders">My Orders</NavLink>
                     <NavLink to="/blogs">Blogs</NavLink>
                     <NavLink to="/contact">Contact</NavLink>
                   </div>

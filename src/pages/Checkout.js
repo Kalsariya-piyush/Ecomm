@@ -3,12 +3,12 @@ import { useFormik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import { BiArrowBack } from 'react-icons/bi';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import Container from '../components/Container';
 import { config, useAuth } from '../context/auth';
 import { clearCart, createOrder } from '../functions/order';
 import { GetCart } from '../functions/products';
-import { toast } from 'react-toastify';
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -185,6 +185,7 @@ const Checkout = () => {
     const paymentObject = new window.Razorpay(options);
     paymentObject.open();
   };
+
   return (
     <>
       <Container class1="checkout-wrapper py-5 home-wrapper-2">
@@ -396,6 +397,9 @@ const Checkout = () => {
                         <h5 className="total-price">
                           {item?.productId?.title}
                         </h5>
+                        <p className="total-price">
+                          Color: {item?.color?.title}
+                        </p>
                         <ul className="colorsList ps-0">
                           <li style={{ background: item?.color?.title }} />
                         </ul>

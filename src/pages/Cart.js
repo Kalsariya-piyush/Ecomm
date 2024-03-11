@@ -51,6 +51,7 @@ const Cart = () => {
     const total = cartItem?.reduce((acc, item) => {
       return acc + item?.productId?.price * item?.quantity;
     }, 0);
+
     setTotalAmount(total);
   }, [cartItem]);
 

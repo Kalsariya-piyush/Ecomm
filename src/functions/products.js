@@ -143,11 +143,25 @@ const RemoveCartProduct = async (productId) => {
   );
 };
 
+const GetMyOrders = async () => {
+  return await axios.get(
+    `${process.env.REACT_APP_API_ENDPOINT}/user/getmyorders`,
+    {
+      headers: {
+        Authorization: `Bearer ${token()}`,
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true,
+    }
+  );
+};
+
 export {
   AddProduct,
   AddToCart,
   AddToWishList,
   GetCart,
+  GetMyOrders,
   GetProductById,
   GetProductsHandler,
   GetWishList,

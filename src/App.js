@@ -5,7 +5,6 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import './App.css';
 import Layout from './components/Layout';
-import { AuthContext } from './context/auth';
 import About from './pages/About';
 import Blog from './pages/Blog';
 import Cart from './pages/Cart';
@@ -15,6 +14,7 @@ import Contact from './pages/Contact';
 import Forgotpassword from './pages/Forgotpassword';
 import Home from './pages/Home';
 import Login from './pages/Login';
+import Orders from './pages/Orders';
 import OurStore from './pages/OurStore';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import RefundPloicy from './pages/RefundPloicy';
@@ -41,6 +41,7 @@ function App() {
             <Route path="blogs" element={<Blog />} />
             <Route path="blog/:id" element={<SingleBlog />} />
             <Route path="cart" element={<Cart />} />
+            <Route path="my-orders" element={<Orders />} />
             <Route path="checkout" element={<Checkout />} />
             <Route path="compare-product" element={<CompareProduct />} />
             <Route path="wishlist" element={<Wishlist />} />

@@ -34,11 +34,8 @@ const Signup = () => {
         firstName: yup.string().required('Please enter a first name'),
         lastName: yup.string().required('Please enter a last name'),
         mobileNo: yup
-          .number()
-          .typeError('Please Enter a valid mobile number')
-          .positive('Please Enter a valid mobile number')
-          .integer('Please Enter a valid mobile number')
-          .min(10)
+          .string()
+          .matches(/^[0-9]{10}$/, 'Mobile number must be 10 digits')
           .required('Please enter a mobile number'),
         email: yup
           .string()
@@ -141,6 +138,17 @@ const Signup = () => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={touched?.mobileNo && errors?.mobileNo}
+                    onKeyDown={(e) => {
+                      if (
+                        !/[0-9]/.test(e.key) &&
+                        e.key !== 'Backspace' &&
+                        e.key !== 'Delete' &&
+                        e.key !== 'ArrowLeft' &&
+                        e.key !== 'ArrowRight'
+                      ) {
+                        e.preventDefault();
+                      }
+                    }}
                   />
 
                   <CustomInput

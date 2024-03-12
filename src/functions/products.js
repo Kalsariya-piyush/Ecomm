@@ -39,14 +39,31 @@ const AddProduct = async (values) => {
   );
 };
 
-const GetProductsHandler = async () => {
-  const res = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/product`, {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token()}`,
-    },
-    withCredentials: true,
-  });
+const GetProductsHandler = async (
+  selectedCat,
+  brand,
+  tag,
+  sort,
+  maxPrice,
+  minPrice
+) => {
+  console.log(selectedCat, brand, tag, sort, maxPrice, minPrice);
+  const res = await axios.get(
+    `${process.env.REACT_APP_API_ENDPOINT}/product?${
+      brand ? `brand=${brand}&&` : ''
+    }${tag ? `tags=${tag}&&` : ''}${
+      selectedCat ? `category=${selectedCat}&&` : ''
+    }${minPrice ? `price[gte]=${minPrice}&&` : ''}${
+      maxPrice ? `price[lte]=${maxPrice}&&` : ''
+    }${sort ? `sort=${sort}&&` : ''}`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token()}`,
+      },
+      withCredentials: true,
+    }
+  );
   return res.data;
 };
 

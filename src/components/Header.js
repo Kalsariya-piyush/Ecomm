@@ -222,6 +222,18 @@ const Header = () => {
                     <NavLink to="/my-orders">My Orders</NavLink>
                     <NavLink to="/blogs">Blogs</NavLink>
                     <NavLink to="/contact">Contact</NavLink>
+                    {!isLoadingUser && (
+                      <>
+                        {currentUser && (
+                          <button
+                            onClick={() => LogoutHandler()}
+                            className="border-0 bg-transparent text-white"
+                          >
+                            LOG OUT
+                          </button>
+                        )}
+                      </>
+                    )}
                   </div>
                 </div>
               </div>

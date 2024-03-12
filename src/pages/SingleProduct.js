@@ -324,7 +324,7 @@ const SingleProduct = () => {
           </div>
         </div>
       </Container>
-      <Container class1="reviews-wrapper home-wrapper-2">
+      {/* <Container class1="reviews-wrapper home-wrapper-2">
         <div className="row">
           <div className="col-12">
             <h3 id="review">Reviews</h3>
@@ -402,7 +402,7 @@ const SingleProduct = () => {
             </div>
           </div>
         </div>
-      </Container>
+      </Container> */}
       <Container class1="popular-wrapper py-5 home-wrapper-2">
         <div className="row">
           <div className="col-12">

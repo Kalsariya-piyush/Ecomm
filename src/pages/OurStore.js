@@ -1,48 +1,90 @@
 import React, { useEffect, useState } from 'react';
-import ReactStars from 'react-rating-stars-component';
 import BreadCrumb from '../components/BreadCrumb';
-import Color from '../components/Color';
 import Container from '../components/Container';
 import Meta from '../components/Meta';
 import ProductCard from '../components/ProductCard';
-import { GetAllBrands } from '../functions/brands';
-import { GetAllCategories } from '../functions/categories';
 import { GetProductsHandler } from '../functions/products';
 
 const OurStore = () => {
   const [grid, setGrid] = useState(4);
-  const [Brands, setBrands] = useState([]);
   const [products, setProducts] = useState([]);
-  const [Categorys, setCategorys] = useState([]);
+
+  const [brands, setBrands] = useState([]);
+  const [categorys, setCategorys] = useState([]);
+  const [tags, setTags] = useState([]);
+
+  // filter states
+  const [selectedCat, setSelectedCategory] = useState('');
+  const [tag, setTag] = useState('');
+  const [brand, setBrand] = useState('');
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(null);
+  const [sort, setSort] = useState(null);
 
   const [isLoading, setIsLoading] = useState(true);
 
-  const getBrandHandler = async () => {
-    setIsLoading(true);
-    const res = await GetAllBrands();
-    setBrands(res.data);
-    setIsLoading(false);
-  };
+  // const getBrandHandler = async () => {
+  //   setIsLoading(true);
+  //   const res = await GetAllBrands();
+  //   setBrands(res.data);
+  //   setIsLoading(false);
+  // };
 
-  const getCategoryHandler = async () => {
-    setIsLoading(true);
-    const res = await GetAllCategories();
-    setCategorys(res.data);
-    setIsLoading(false);
-  };
+  // const getCategoryHandler = async () => {
+  //   setIsLoading(true);
+  //   const res = await GetAllCategories();
+  //   setCategorys(res.data);
+  //   setIsLoading(false);
+  // };
 
-  const getProductDataHandler = async () => {
+  const getProductDataHandler = async (
+    selectedCat,
+    brand,
+    tag,
+    sort,
+    maxPrice,
+    minPrice
+  ) => {
     setIsLoading(true);
-    const res = await GetProductsHandler();
+    const res = await GetProductsHandler(
+      selectedCat,
+      brand,
+      tag,
+      sort,
+      maxPrice,
+      minPrice
+    );
     setProducts(res);
     setIsLoading(false);
   };
 
   useEffect(() => {
-    getBrandHandler();
-    getProductDataHandler();
-    getCategoryHandler();
-  }, []);
+    // getBrandHandler();
+    getProductDataHandler(selectedCat, brand, tag, sort, maxPrice, minPrice);
+    // getCategoryHandler();
+  }, [selectedCat, brand, tag, sort, maxPrice, minPrice]);
+
+  useEffect(() => {
+    let newBrands = [];
+    let category = [];
+    let newTags = [];
+    for (let index = 0; index < products.length; index++) {
+      const element = products[index];
+      if (!newBrands?.includes(element.brand)) {
+        newBrands.push(element.brand);
+      }
+      if (!category?.includes(element.category)) {
+        category.push(element.category);
+      }
+      if (!newTags?.includes(element.tags)) {
+        newTags.push(element.tags);
+      }
+    }
+
+    setBrands(newBrands);
+    setCategorys(category);
+    setTags(newTags);
+  }, [products]);
 
   return (
     <>
@@ -54,9 +96,9 @@ const OurStore = () => {
             <div className="filter-card mb-3">
               <h3 className="filter-title">Shop By Categories</h3>
               <div>
-                {Brands.map((item, index) => (
-                  <ul className="ps-0">
-                    <li>{item.title}</li>
+                {categorys.map((item, index) => (
+                  <ul key={item} className="ps-0">
+                    <li onClick={() => setSelectedCategory(item)}>{item}</li>
                   </ul>
                 ))}
               </div>
@@ -64,7 +106,7 @@ const OurStore = () => {
             <div className="filter-card mb-3">
               <h3 className="filter-title">Filter By</h3>
               <div>
-                <h5 className="sub-title">Availablity</h5>
+                {/* <h5 className="sub-title">Availablity</h5>
                 <div>
                   <div className="form-check">
                     <input
@@ -88,33 +130,40 @@ const OurStore = () => {
                       Out of Stock(0)
                     </label>
                   </div>
-                </div>
+                </div> */}
                 <h5 className="sub-title">Price</h5>
                 <div className="d-flex align-items-center gap-10">
                   <div className="form-floating">
                     <input
-                      type="email"
+                      type="number"
                       className="form-control"
                       id="floatingInput"
                       placeholder="From"
+                      value={minPrice}
+                      min={0}
+                      max={maxPrice}
+                      onChange={(e) => setMinPrice(e?.target?.value)}
                     />
                     <label htmlFor="floatingInput">From</label>
                   </div>
                   <div className="form-floating">
                     <input
-                      type="email"
+                      type="number"
                       className="form-control"
                       id="floatingInput1"
                       placeholder="To"
+                      min={minPrice}
+                      value={maxPrice}
+                      onChange={(e) => setMaxPrice(e?.target?.value)}
                     />
                     <label htmlFor="floatingInput1">To</label>
                   </div>
                 </div>
-                <h5 className="sub-title">Colors</h5>
+                {/* <h5 className="sub-title">Colors</h5>
                 <div>
                   <Color />
-                </div>
-                <h5 className="sub-title">Size</h5>
+                </div> */}
+                {/* <h5 className="sub-title">Size</h5>
                 <div>
                   <div className="form-check">
                     <input
@@ -138,22 +187,48 @@ const OurStore = () => {
                       M (2)
                     </label>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
             <div className="filter-card mb-3">
               <h3 className="filter-title">Product Tags</h3>
               <div>
                 <div className="product-tags d-flex flex-wrap align-items-center gap-10">
-                  {Categorys.map((item, index) => (
-                    <span className="badge bg-light text-secondary rounded-3 py-2 px-3">
-                      {item.title}
+                  {tags.map((item, index) => (
+                    <span
+                      key={index}
+                      onClick={() => setTag(item)}
+                      className="badge bg-light text-secondary rounded-3 py-2 px-3"
+                      style={{
+                        cursor: 'pointer',
+                      }}
+                    >
+                      {item}
                     </span>
                   ))}
                 </div>
               </div>
             </div>
             <div className="filter-card mb-3">
+              <h3 className="filter-title">Product Brands</h3>
+              <div>
+                <div className="product-tags d-flex flex-wrap align-items-center gap-10">
+                  {brands.map((item, index) => (
+                    <span
+                      key={index}
+                      onClick={() => setBrand(item)}
+                      className="badge bg-light text-secondary rounded-3 py-2 px-3"
+                      style={{
+                        cursor: 'pointer',
+                      }}
+                    >
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+            {/* <div className="filter-card mb-3">
               <h3 className="filter-title">Random Product</h3>
               <div>
                 <div className="random-products mb-3 d-flex">
@@ -201,7 +276,7 @@ const OurStore = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
           <div className="col-9">
             <div className="filter-sort-grid mb-4">
@@ -215,17 +290,14 @@ const OurStore = () => {
                     defaultValue={'manula'}
                     className="form-control form-select"
                     id=""
+                    onChange={(e) => setSort(e?.target?.value)}
                   >
-                    <option value="manual">Featured</option>
-                    <option value="best-selling">Best selling</option>
-                    <option value="title-ascending">Alphabetically, A-Z</option>
-                    <option value="title-descending">
-                      Alphabetically, Z-A
-                    </option>
-                    <option value="price-ascending">Price, low to high</option>
-                    <option value="price-descending">Price, high to low</option>
-                    <option value="created-ascending">Date, old to new</option>
-                    <option value="created-descending">Date, new to old</option>
+                    <option value="title">Alphabetically, A-Z</option>
+                    <option value="-title">Alphabetically, Z-A</option>
+                    <option value="price">Price, low to high</option>
+                    <option value="-price">Price, high to low</option>
+                    <option value="createdAt">Date, old to new</option>
+                    <option value="-createdAt">Date, new to old</option>
                   </select>
                 </div>
                 <div className="d-flex align-items-center gap-10">

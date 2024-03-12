@@ -18,7 +18,7 @@ const Orders = () => {
         setOrders(res?.data?.orders);
       })
       .catch((err) => {
-        console.log('rtt .> ', err);
+        console.log('Error > ', err);
       })
       .finally(() => {
         setIsLoading(false);
@@ -34,12 +34,6 @@ const Orders = () => {
       <Meta title={'My-orders'} />
       <BreadCrumb title="My Orders" />
       <Container class1="cart-wrapper home-wrapper-2 py-5">
-        {isLoading && (
-          <div className="cart-data py-3 mb-2 d-flex justify-content-between align-items-center">
-            <span class="loader mx-auto"></span>
-          </div>
-        )}
-
         {isLoading && !orders ? (
           <div className="cart-data py-3 mb-2 d-flex justify-content-between align-items-center">
             <span class="loader mx-auto"></span>

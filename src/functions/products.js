@@ -160,6 +160,19 @@ const RemoveCartProduct = async (productId) => {
   );
 };
 
+const cencelOrder = async (orderId) => {
+  return await axios.delete(
+    `${process.env.REACT_APP_API_ENDPOINT}/user/remove-order/${orderId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token()}`,
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true,
+    }
+  );
+};
+
 const GetMyOrders = async () => {
   return await axios.get(
     `${process.env.REACT_APP_API_ENDPOINT}/user/getmyorders`,
@@ -184,4 +197,5 @@ export {
   GetWishList,
   ImageUpload,
   RemoveCartProduct,
+  cencelOrder,
 };

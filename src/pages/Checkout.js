@@ -6,10 +6,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import Container from '../components/Container';
+import PrivateRoute from '../components/PrivateRoute';
 import { config, useAuth } from '../context/auth';
 import { clearCart, createOrder } from '../functions/order';
 import { GetCart } from '../functions/products';
-import PrivateRoute from '../components/PrivateRoute';
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -157,8 +157,8 @@ const Checkout = () => {
         setPaymentInfo(payInfo);
 
         await createOrder({
-          totalPrice: totalAmount,
-          totalPriceAfterDiscount: totalAmount,
+          totalPrice: totalAmount + 5,
+          totalPriceAfterDiscount: totalAmount + 5,
           orderItems: cartProducts,
           paymentInfo: payInfo,
           shippingInfo: shippingInfoData,

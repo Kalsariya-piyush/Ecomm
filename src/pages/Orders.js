@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import BreadCrumb from '../components/BreadCrumb';
 import Container from '../components/Container';
 import Meta from '../components/Meta';
-import { useAuth } from '../context/auth';
-import { GetMyOrders } from '../functions/products';
 import PrivateRoute from '../components/PrivateRoute';
+import { useAuth } from '../context/auth';
+import { GetMyOrders, cencelOrder } from '../functions/products';
 
 const Orders = () => {
   const { currentUser, isLoadingUser } = useAuth();
@@ -26,9 +27,24 @@ const Orders = () => {
       });
   };
 
+  const cencelOrderItem = (orderId) => {
+    cencelOrder(orderId)
+      ?.then((res) => {
+        if (res) {
+          getUserCart();
+          toast?.success('Order Cencel successfully !!');
+        }
+      })
+      .catch(() => {
+        toast?.error('Failed please try again !!');
+      });
+  };
+
   useEffect(() => {
     if (currentUser && currentUser?._id && !isLoadingUser) getUserCart();
   }, [currentUser, isLoadingUser]);
+
+  console.log(orders);
 
   return (
     <>
@@ -69,7 +85,7 @@ const Orders = () => {
                     <div
                       style={{ background: '#febd69' }}
                       key={index}
-                      className="row my-3 pt-3"
+                      className="row my-3 pt-3  position-relative"
                     >
                       <div className="col-3">
                         <p>{order?._id}</p>
@@ -82,6 +98,19 @@ const Orders = () => {
                       </div>
                       <div className="col-3">
                         <p>{order?.orderStatus}</p>
+                      </div>
+                      <div
+                        className=""
+                        onClick={() => cencelOrderItem(order?._id)}
+                        style={{
+                          top: 15,
+                          right: 0,
+                          position: 'absolute',
+                          width: 'fit-content',
+                          zIndex: 10,
+                        }}
+                      >
+                        <p>Cencel Order</p>
                       </div>
                       <div className="col-12 text-white">
                         <div
@@ -100,6 +129,7 @@ const Orders = () => {
                           <div className="col-3">
                             <h6>Color</h6>
                           </div>
+
                           {order?.orderItems?.map((item, index) => (
                             <div key={index} className="col-12 text-white">
                               <div className="row pt-3 ">

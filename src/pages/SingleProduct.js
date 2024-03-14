@@ -8,6 +8,7 @@ import Color from '../components/Color';
 import Container from '../components/Container';
 import Meta from '../components/Meta';
 import ProductCard from '../components/ProductCard';
+import { useAuth } from '../context/auth';
 import {
   AddToCart,
   GetCart,
@@ -15,11 +16,13 @@ import {
   GetProductsHandler,
 } from '../functions/products';
 import watch from '../images/watch.jpg';
+
 const SingleProduct = () => {
+  const { currentUser } = useAuth();
+
   const [color, setColor] = useState(null);
   const [quantity, setQuantity] = useState(1);
 
-  const [orderedProduct, setorderedProduct] = useState(true);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -94,9 +97,12 @@ const SingleProduct = () => {
 
   const addToCartHandler = async () => {
     if (!isAlreadyAdded) {
-      if (!color) {
+      if (!currentUser && !currentUser?._id) {
+        navigate('/login');
+        return;
+      } else if (!color) {
         toast.error('Please select product color');
-        return false;
+        return;
       } else {
         try {
           const data = {

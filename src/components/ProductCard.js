@@ -29,8 +29,16 @@ const ProductCard = (props) => {
             location.pathname === '/product' ? `gr-${grid}` : 'col-3'
           } `}
           key={prod?._id}
+          style={{
+            height: '100%',
+          }}
         >
-          <div className="product-card position-relative">
+          <div
+            style={{
+              height: '100%',
+            }}
+            className="product-card position-relative"
+          >
             <div className="wishlist-icon position-absolute">
               <button
                 onClick={() => addToWishList(prod?._id)}
@@ -49,6 +57,10 @@ const ProductCard = (props) => {
                   : `${prod?._id}`
               }`}
               key={prod?.id}
+              style={{
+                display: grid === 12 ? 'flex' : '',
+                gap: grid === 12 ? '14px' : '',
+              }}
             >
               <div className="product-image">
                 {prod?.images?.slice(0, 2)?.map((img) => (
@@ -57,6 +69,13 @@ const ProductCard = (props) => {
                     className="img-fluid"
                     alt="product image"
                     key={img?.publicId}
+                    style={{
+                      width: grid * 100,
+                      height: '250px',
+                      margin: '0 auto',
+                      aspectRatio: '1/1',
+                      minWidth: '200px',
+                    }}
                   />
                 ))}
               </div>

@@ -29,6 +29,10 @@
   padding: 15px;
 }
 
+html {
+  min-width: 1300px;
+}
+
 body {
   font-family: 'Rubik', sans-serif;
 }

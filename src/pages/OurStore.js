@@ -343,7 +343,12 @@ const OurStore = () => {
               </div>
             </div>
             <div className="products-list pb-5">
-              <div className="d-flex gap-10 flex-wrap">
+              <div
+                className="d-flex gap-10 flex-wrap"
+                style={{
+                  height: '100%',
+                }}
+              >
                 <ProductCard grid={grid} data={products} />
               </div>
             </div>

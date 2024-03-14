@@ -108,9 +108,10 @@ const Orders = () => {
                           position: 'absolute',
                           width: 'fit-content',
                           zIndex: 10,
+                          cursor: 'pointer',
                         }}
                       >
-                        <p>Cencel Order</p>
+                        <p>Cancel Order</p>
                       </div>
                       <div className="col-12 text-white">
                         <div

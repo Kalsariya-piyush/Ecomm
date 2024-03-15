@@ -9,37 +9,20 @@ import Container from '../components/Container';
 import PrivateRoute from '../components/PrivateRoute';
 import { config, useAuth } from '../context/auth';
 import { clearCart, createOrder } from '../functions/order';
-import { GetCart } from '../functions/products';
 
 const Checkout = () => {
   const navigate = useNavigate();
 
-  const { currentUser, isLoadingUser } = useAuth();
+  const { currentUser, isLoadingUser, cartItem, totalAmount, getUserCart } =
+    useAuth();
 
   const [isLoading, setIsLoading] = useState(true);
-  const [cartItem, setCartItem] = useState([]);
   const [shippingInfo, setShippingInfo] = useState(null);
   const [paymentInfo, setPaymentInfo] = useState({
     razorpayPaymentId: '',
     razorpayOrderId: '',
   });
   const [cartProducts, setCartProducts] = useState([]);
-
-  const [totalAmount, setTotalAmount] = useState(0);
-
-  const getUserCart = () => {
-    setIsLoading(true);
-    GetCart()
-      .then((res) => {
-        setCartItem(res?.data);
-      })
-      .catch((err) => {
-        console.log('rtt .> ', err);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  };
 
   useEffect(() => {
     const data = cartItem?.map((data) => {
@@ -86,13 +69,6 @@ const Checkout = () => {
   useEffect(() => {
     if (currentUser && currentUser?._id && !isLoadingUser) getUserCart();
   }, [currentUser, isLoadingUser]);
-
-  useEffect(() => {
-    const total = cartItem?.reduce((acc, item) => {
-      return acc + item?.productId?.price * item?.quantity;
-    }, 0);
-    setTotalAmount(total);
-  }, [cartItem]);
 
   const loadScript = (src) => {
     return new Promise((resolve) => {
@@ -165,9 +141,10 @@ const Checkout = () => {
         });
 
         await clearCart();
+        getUserCart();
         toast.success('Order created');
 
-        navigate('/');
+        navigate('/my-orders');
         // alert(result);
       },
       prefill: {

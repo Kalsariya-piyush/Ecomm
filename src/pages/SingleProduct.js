@@ -88,7 +88,7 @@ const SingleProduct = () => {
         }
       })
       .catch((err) => {
-        console.log('rtt .> ', err);
+        console.log('Error > ', err);
       })
       .finally(() => {
         setIsLoading(false);
@@ -115,6 +115,7 @@ const SingleProduct = () => {
           const res = await AddToCart(data);
           if (res) {
             toast.success('Product added successfully to your cart!');
+            getUserCart();
             setTimeout(() => {
               navigate('/cart');
             }, 400);

@@ -86,6 +86,15 @@ const OurStore = () => {
     setTags(newTags);
   }, [products]);
 
+  const handleClearFilter = () => {
+    setSelectedCategory('');
+    setTag('');
+    setBrand('');
+    setMinPrice(0);
+    setMaxPrice(null);
+    setSort(null);
+  };
+
   return (
     <>
       <Meta title={'Our Store'} />
@@ -281,25 +290,46 @@ const OurStore = () => {
           <div className="col-9">
             <div className="filter-sort-grid mb-4">
               <div className="d-flex justify-content-between align-items-center">
-                <div className="d-flex align-items-center gap-10">
-                  <p className="mb-0 d-block" style={{ width: '100px' }}>
-                    Sort By:
-                  </p>
-                  <select
-                    name=""
-                    defaultValue={'manula'}
-                    className="form-control form-select"
-                    id=""
-                    onChange={(e) => setSort(e?.target?.value)}
-                  >
-                    <option value="title">Alphabetically, A-Z</option>
-                    <option value="-title">Alphabetically, Z-A</option>
-                    <option value="price">Price, low to high</option>
-                    <option value="-price">Price, high to low</option>
-                    <option value="createdAt">Date, old to new</option>
-                    <option value="-createdAt">Date, new to old</option>
-                  </select>
+                <div
+                  className="d-flex justify-content-between align-items-center"
+                  style={{ gap: 20 }}
+                >
+                  <div className="d-flex align-items-center gap-10">
+                    <p className="mb-0 d-block" style={{ width: '100px' }}>
+                      Sort By:
+                    </p>
+                    <select
+                      name=""
+                      defaultValue={'manula'}
+                      className="form-control form-select"
+                      id=""
+                      onChange={(e) => setSort(e?.target?.value)}
+                    >
+                      <option value="title">Alphabetically, A-Z</option>
+                      <option value="-title">Alphabetically, Z-A</option>
+                      <option value="price">Price, low to high</option>
+                      <option value="-price">Price, high to low</option>
+                      <option value="createdAt">Date, old to new</option>
+                      <option value="-createdAt">Date, new to old</option>
+                    </select>
+                  </div>
+
+                  {(selectedCat ||
+                    tag ||
+                    brand ||
+                    minPrice ||
+                    maxPrice ||
+                    sort) && (
+                    <button
+                      onClick={handleClearFilter}
+                      type="button"
+                      class="btn btn-warning"
+                    >
+                      Clear Filter
+                    </button>
+                  )}
                 </div>
+
                 <div className="d-flex align-items-center gap-10">
                   <p className="totalproducts mb-0">
                     {products?.length} Product{products?.length > 1 ? 's' : ''}

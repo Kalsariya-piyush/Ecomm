@@ -1,69 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { BsSearch } from 'react-icons/bs';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/auth';
-import { GetCart } from '../functions/products';
 import cart from '../images/cart.svg';
 import compare from '../images/compare.svg';
-import menu from '../images/menu.svg';
 import user from '../images/user.svg';
 import wishlist from '../images/wishlist.svg';
 
 const Header = () => {
-  const { currentUser, isLoadingUser, LogoutHandler } = useAuth();
+  const { currentUser, isLoadingUser, LogoutHandler, cartItem, totalAmount } =
+    useAuth();
 
-  const [, setIsLoading] = useState(true);
-  const [cartItem, setCartItem] = useState([]);
   const navigate = useNavigate();
-
-  const [totalAmount, setTotalAmount] = useState(0);
-
-  const getUserCart = () => {
-    setIsLoading(true);
-    GetCart()
-      .then((res) => {
-        setCartItem(res?.data);
-      })
-      .catch((err) => {
-        console.log('rtt .> ', err);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  };
-
-  useEffect(() => {
-    if (currentUser && currentUser?._id && !isLoadingUser) getUserCart();
-  }, [currentUser, isLoadingUser, navigate]);
-
-  useEffect(() => {
-    const total = cartItem?.reduce((acc, item) => {
-      return acc + item?.productId?.price * item?.quantity;
-    }, 0);
-    setTotalAmount(total);
-  }, [cartItem]);
 
   return (
     <>
-      <header className="header-top-strip py-3">
-        <div className="container-xxl">
-          <div className="row">
-            <div className="col-6">
-              <p className="text-white mb-0">
-                Free Shipping Over $100 & Free Returns
-              </p>
-            </div>
-            <div className="col-6">
-              <p className="text-end text-white mb-0">
-                Hotline:
-                <a className="text-white" href="tel:+91 7698026049">
-                  +91 7698026049
-                </a>
-              </p>
-            </div>
-          </div>
-        </div>
-      </header>
       <header className="header-upper py-3">
         <div className="container-xxl">
           <div className="row align-items-center">
@@ -134,8 +85,11 @@ const Header = () => {
                     <>
                       {currentUser ? (
                         <div
-                          onClick={() => LogoutHandler()}
+                          onClick={() => navigate('/profile')}
                           className="d-flex align-items-center gap-10 text-white cursor-pointer"
+                          style={{
+                            cursor: 'pointer',
+                          }}
                         >
                           <img src={user} alt="user" />
                           <p className="mb-0">
@@ -178,8 +132,8 @@ const Header = () => {
         <div className="container-xxl">
           <div className="row">
             <div className="col-12">
-              <div className="menu-bottom d-flex align-items-center gap-30">
-                <div>
+              <div className="menu-bottom d-flex align-items-center justify-content-center gap-30">
+                {/* <div>
                   <div className="dropdown">
                     <button
                       className="btn btn-secondary dropdown-toggle bg-transparent border-0 gap-15 d-flex align-items-center"
@@ -214,7 +168,7 @@ const Header = () => {
                       </li>
                     </ul>
                   </div>
-                </div>
+                </div> */}
                 <div className="menu-links">
                   <div className="d-flex align-items-center gap-15">
                     <NavLink to="/">Home</NavLink>

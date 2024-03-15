@@ -23,8 +23,8 @@ const PrivateRoute = ({ children }) => {
     <div>
       {isLoading ? (
         <div className="d-flex justify-content-center align-items-center flex-row py-5">
-          <div className="spinner-border text-dark" role="status">
-            <span className="visually-hidden">Loading...</span>
+          <div className="cart-data py-3 mb-2 d-flex justify-content-between align-items-center">
+            <span class="loader mx-auto"></span>
           </div>
         </div>
       ) : (

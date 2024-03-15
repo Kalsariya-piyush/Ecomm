@@ -5,31 +5,14 @@ import { toast } from 'react-toastify';
 import BreadCrumb from '../components/BreadCrumb';
 import Container from '../components/Container';
 import Meta from '../components/Meta';
-import { useAuth } from '../context/auth';
-import { GetCart, RemoveCartProduct } from '../functions/products';
 import PrivateRoute from '../components/PrivateRoute';
+import { useAuth } from '../context/auth';
+import { RemoveCartProduct } from '../functions/products';
 
 const Cart = () => {
-  const { currentUser, isLoadingUser } = useAuth();
+  const { getUserCart, cartItem, totalAmount } = useAuth();
 
   const [isLoading, setIsLoading] = useState(true);
-  const [cartItem, setCartItem] = useState([]);
-
-  const [totalAmount, setTotalAmount] = useState(0);
-
-  const getUserCart = () => {
-    setIsLoading(true);
-    GetCart()
-      .then((res) => {
-        setCartItem(res?.data);
-      })
-      .catch((err) => {
-        console.log('rtt .> ', err);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  };
 
   const deleteProductFromCart = (cartId) => {
     RemoveCartProduct(cartId)
@@ -45,15 +28,13 @@ const Cart = () => {
   };
 
   useEffect(() => {
-    if (currentUser && currentUser?._id && !isLoadingUser) getUserCart();
-  }, [currentUser, isLoadingUser]);
+    getUserCart();
+  }, []);
 
   useEffect(() => {
-    const total = cartItem?.reduce((acc, item) => {
-      return acc + item?.productId?.price * item?.quantity;
-    }, 0);
-
-    setTotalAmount(total);
+    if (cartItem) {
+      setIsLoading(false);
+    }
   }, [cartItem]);
 
   return (
@@ -70,13 +51,12 @@ const Cart = () => {
                 <h4 className="cart-col-3">Quantity</h4>
                 <h4 className="cart-col-4">Total</h4>
               </div>
-              {isLoading && !cartItem ? (
+              {isLoading && !cartItem && (
                 <div className="cart-data py-3 mb-2 d-flex justify-content-between align-items-center">
                   <span class="loader mx-auto"></span>
                 </div>
-              ) : (
-                <>{!cartItem && <p className="text-center fs-3">No data</p>}</>
               )}
+
               {cartItem &&
                 cartItem?.length > 0 &&
                 !isLoading &&
@@ -140,6 +120,7 @@ const Cart = () => {
                 </p>
               )}
             </div>
+
             {cartItem && cartItem?.length > 0 && (
               <div className="col-12 py-2 mt-4">
                 <div className="d-flex justify-content-between align-items-baseline">

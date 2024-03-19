@@ -16,7 +16,7 @@ const Checkout = () => {
   const { currentUser, isLoadingUser, cartItem, totalAmount, getUserCart } =
     useAuth();
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [shippingInfo, setShippingInfo] = useState(null);
   const [paymentInfo, setPaymentInfo] = useState({
     razorpayPaymentId: '',
@@ -132,7 +132,7 @@ const Checkout = () => {
 
         setPaymentInfo(payInfo);
 
-        await createOrder({
+        const res = await createOrder({
           totalPrice: totalAmount + 5,
           totalPriceAfterDiscount: totalAmount + 5,
           orderItems: cartProducts,
@@ -142,10 +142,10 @@ const Checkout = () => {
 
         await clearCart();
         getUserCart();
+
         toast.success('Order created');
 
-        navigate('/my-orders');
-        // alert(result);
+        navigate(`/orders/${res?.data?.order?._id}`);
       },
       prefill: {
         name: 'clicon',

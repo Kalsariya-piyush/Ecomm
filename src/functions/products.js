@@ -160,9 +160,25 @@ const RemoveCartProduct = async (productId) => {
   );
 };
 
+// const cencelOrder = async (orderId) => {
+//   return await axios.delete(
+//     `${process.env.REACT_APP_API_ENDPOINT}/user/remove-order/${orderId}`,
+//     {
+//       headers: {
+//         Authorization: `Bearer ${token()}`,
+//         'Content-Type': 'application/json',
+//       },
+//       withCredentials: true,
+//     }
+//   );
+// };
+
 const cencelOrder = async (orderId) => {
-  return await axios.delete(
-    `${process.env.REACT_APP_API_ENDPOINT}/user/remove-order/${orderId}`,
+  return await axios.put(
+    `${process.env.REACT_APP_API_ENDPOINT}/user/updateOrder/${orderId}`,
+    {
+      orderStatus: 'Canceled',
+    },
     {
       headers: {
         Authorization: `Bearer ${token()}`,

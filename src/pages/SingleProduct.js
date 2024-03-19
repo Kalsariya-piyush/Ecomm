@@ -251,19 +251,23 @@ const SingleProduct = () => {
                             max={productData?.quantity}
                             className="form-control"
                             style={{ width: '70px' }}
-                            id=""
                             value={quantity}
                             onChange={(e) => setQuantity(e.target.value)}
+                            onBlur={(e) => {
+                              if (e?.target?.value < 1) e.target.value = 1;
+                              if (e?.target?.value > productData?.quantity)
+                                e.target.value = productData?.quantity;
+                            }}
                           />
                         </div>
                       </div>
-                      {quantity &&
+                      {/* {quantity &&
                         productData?.quantity &&
                         quantity > productData?.quantity && (
                           <p className="text-danger">
                             you can only {productData?.quantity} quantity add{' '}
                           </p>
-                        )}
+                        )} */}
                     </div>
                   )}
                   <div

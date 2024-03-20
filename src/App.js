@@ -14,9 +14,11 @@ import Contact from './pages/Contact';
 import Forgotpassword from './pages/Forgotpassword';
 import Home from './pages/Home';
 import Login from './pages/Login';
+import OrderDetail from './pages/OrderDetail';
 import Orders from './pages/Orders';
 import OurStore from './pages/OurStore';
 import PrivacyPolicy from './pages/PrivacyPolicy';
+import Profile from './pages/Profile';
 import RefundPloicy from './pages/RefundPloicy';
 import Resetpassword from './pages/Resetpassword';
 import ShippingPolicy from './pages/ShippingPolicy';
@@ -42,6 +44,7 @@ function App() {
             <Route path="blog/:id" element={<SingleBlog />} />
             <Route path="cart" element={<Cart />} />
             <Route path="my-orders" element={<Orders />} />
+            <Route path="orders/:id" element={<OrderDetail />} />
             <Route path="checkout" element={<Checkout />} />
             <Route path="compare-product" element={<CompareProduct />} />
             <Route path="wishlist" element={<Wishlist />} />
@@ -53,6 +56,7 @@ function App() {
             <Route path="refund-policy" element={<RefundPloicy />} />
             <Route path="shipping-policy" element={<ShippingPolicy />} />
             <Route path="term-conditions" element={<TermAndContions />} />
+            <Route path="profile" element={<Profile />} />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import BreadCrumb from '../components/BreadCrumb';
 import Container from '../components/Container';
@@ -75,13 +76,13 @@ const Orders = () => {
                     <div className="col-3">
                       <h5>Total Amount</h5>
                     </div>
-                    <div className="col-3">
+                    <div className="col-2">
                       <h5>Total Amount after Discount</h5>
                     </div>
                     <div className="col-2">
                       <h5>Status</h5>
                     </div>
-                    <div className="col-1">
+                    <div className="col-2">
                       <h5>Actions</h5>
                     </div>
                   </div>
@@ -100,7 +101,7 @@ const Orders = () => {
                       <div className="col-3">
                         <p>{order?.totalPrice}</p>
                       </div>
-                      <div className="col-3">
+                      <div className="col-2">
                         <p>{order?.totalPriceAfterDiscount}</p>
                       </div>
                       <div className="col-2">
@@ -111,17 +112,30 @@ const Orders = () => {
                           {order?.orderStatus}
                         </p>
                       </div>
-                      <div
-                        className="col-1"
-                        style={{ padding: 0 }}
-                        onClick={() => cencelOrderItem(order?._id)}
-                      >
-                        <p
+                      {order?.orderStatus !== 'Shipped' &&
+                        order?.orderStatus !== 'Delivered' &&
+                        order?.orderStatus !== 'Canceled' && (
+                          <div
+                            className="col-1"
+                            style={{ padding: 0 }}
+                            onClick={() => cencelOrderItem(order?._id)}
+                          >
+                            <p
+                              className="btn btn-danger"
+                              style={{ fontSize: 12, whiteSpace: 'normal' }}
+                            >
+                              Cancel Order
+                            </p>
+                          </div>
+                        )}
+                      <div className="col-1" style={{ padding: 0 }}>
+                        <Link
                           className="btn btn-danger"
                           style={{ fontSize: 12, whiteSpace: 'normal' }}
+                          to={`/orders/${order?._id}`}
                         >
-                          Cancel Order
-                        </p>
+                          Detail
+                        </Link>
                       </div>
                       <div className="col-12 text-white">
                         <div
@@ -134,13 +148,13 @@ const Orders = () => {
                           <div className="col-3">
                             <h6>Quantity</h6>
                           </div>
-                          <div className="col-3">
+                          <div className="col-2">
                             <h6>Price</h6>
                           </div>
                           <div className="col-2">
                             <h6>Color</h6>
                           </div>
-                          <div className="col-1"></div>
+                          <div className="col-2"></div>
 
                           {order?.orderItems?.map((item, index) => (
                             <div key={index} className="col-12 text-white">
@@ -151,7 +165,7 @@ const Orders = () => {
                                 <div className="col-3">
                                   <p>{item?.quantity}</p>
                                 </div>
-                                <div className="col-3">
+                                <div className="col-2">
                                   <p>{item?.price}</p>
                                 </div>
                                 <div className="col-2">
@@ -161,7 +175,7 @@ const Orders = () => {
                                     />
                                   </ul>
                                 </div>
-                                <div className="col-1"></div>
+                                <div className="col-2"></div>
                               </div>
                             </div>
                           ))}

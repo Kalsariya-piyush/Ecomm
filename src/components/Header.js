@@ -3,7 +3,6 @@ import { BsSearch } from 'react-icons/bs';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/auth';
 import cart from '../images/cart.svg';
-import compare from '../images/compare.svg';
 import user from '../images/user.svg';
 import wishlist from '../images/wishlist.svg';
 
@@ -42,7 +41,7 @@ const Header = () => {
                 </Link>
               </h2>
             </div>
-            <div className="col-5">
+            <div className="col-6">
               <div className="input-group">
                 <input
                   type="text"
@@ -56,9 +55,9 @@ const Header = () => {
                 </span>
               </div>
             </div>
-            <div className="col-5">
+            <div className="col-4">
               <div className="header-upper-links d-flex align-items-center justify-content-between">
-                <div>
+                {/* <div>
                   <Link
                     to="/compare-product"
                     className="d-flex align-items-center gap-10 text-white"
@@ -68,7 +67,7 @@ const Header = () => {
                       Compare <br /> Products
                     </p>
                   </Link>
-                </div>
+                </div> */}
                 <div>
                   <Link
                     to="/wishlist"

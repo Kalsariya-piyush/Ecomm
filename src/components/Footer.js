@@ -38,15 +38,14 @@ const Footer = () => {
               <h4 className="text-white mb-4">Contact Us</h4>
               <div>
                 <address className="text-white fs-6">
-                  Hno : A-38 rang darshan krupa soc, <br /> surat, gujarat{' '}
-                  <br />
+                  Office : 308, Shivalik dabholi, <br /> surat, gujarat <br />
                   PinCode: 395004
                 </address>
                 <a
                   href="tel:+91 7698026049"
                   className="mt-3 d-block mb-1 text-white"
                 >
-                  +91 7698026049
+                  +91 999999999
                 </a>
                 <a
                   href="mailto:clicon@gmail.com"

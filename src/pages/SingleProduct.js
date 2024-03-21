@@ -42,6 +42,7 @@ const SingleProduct = () => {
         setIsLoading(true);
         const res = await GetProductById(productId);
         setProductData(res);
+        setColor(res?.color[0]);
       } catch (err) {
         console.log('Error >> ', err);
       } finally {

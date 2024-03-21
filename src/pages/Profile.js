@@ -6,13 +6,16 @@ import Meta from '../components/Meta';
 import PrivateRoute from '../components/PrivateRoute';
 
 import { useFormik } from 'formik';
+import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import { useAuth } from '../context/auth';
+import { EditUserProfileHandler } from '../functions/auththenticaion';
 
 const Profile = () => {
   const { currentUser, isLoadingUser } = useAuth();
 
   const [editMode, setEditMode] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     handleBlur,
@@ -47,7 +50,28 @@ const Profile = () => {
     }),
 
     onSubmit: (value) => {
-      console.log('Values > ', value);
+      setIsLoading(true);
+
+      EditUserProfileHandler(value)
+        .then((res) => {
+          if (res?.data && res?.data?._id) {
+            toast.success('Profile updated successfully');
+          }
+        })
+        .catch((err) => {
+          if (err?.response?.data?.message === 'User Already Exists') {
+            toast.error(err?.response?.data?.message);
+          } else if (
+            err?.response?.data?.message?.includes('mobile_1 dup key')
+          ) {
+            toast.error(
+              'Mobile number is already registered please try with another mobile number'
+            );
+          }
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
     },
   });
 
@@ -223,7 +247,7 @@ const Profile = () => {
                             height: 46,
                             borderRadius: 6,
                           }}
-                          disabled={!editMode}
+                          disabled={true}
                           value={values?.address}
                           onChange={handleChange}
                           onBlur={handleBlur}
@@ -274,11 +298,11 @@ const Profile = () => {
 
                             <div className="mt-3 d-flex justify-content-center gap-15 align-items-center">
                               <button
-                                disabled={isLoadingUser}
+                                disabled={isLoadingUser || isLoading}
                                 className="button border-0"
                                 type="submit"
                               >
-                                Update
+                                {isLoading ? 'Loading...' : 'Update'}
                               </button>
                             </div>
                           </div>

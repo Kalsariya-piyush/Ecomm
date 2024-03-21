@@ -99,7 +99,52 @@ const resetPasswordHandler = async (hash, password) => {
   return res;
 };
 
+const EditUserProfileHandler = async (data) => {
+  const body = {
+    password: data.password,
+    firstname: data.firstName,
+    lastname: data.lastName,
+    mobile: data.mobileNo,
+    address: data.address,
+  };
+
+  return await axios.put(
+    `${process.env.REACT_APP_API_ENDPOINT}/user/edit-user`,
+    body,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token()}`,
+      },
+      withCredentials: true,
+    }
+  );
+};
+
+const CreateEnquiryHandler = async (data) => {
+  const body = {
+    name: data.name,
+    email: data.email,
+    mobile: data.mobileNo,
+    comment: data.comments,
+  };
+
+  return await axios.post(
+    `${process.env.REACT_APP_API_ENDPOINT}/enquiry`,
+    body,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token()}`,
+      },
+      withCredentials: true,
+    }
+  );
+};
+
 export {
+  CreateEnquiryHandler,
+  EditUserProfileHandler,
   GetCurrentUser,
   HandleLogout,
   LoginHandler,

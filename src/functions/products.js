@@ -47,7 +47,6 @@ const GetProductsHandler = async (
   maxPrice,
   minPrice
 ) => {
-  console.log(selectedCat, brand, tag, sort, maxPrice, minPrice);
   const res = await axios.get(
     `${process.env.REACT_APP_API_ENDPOINT}/product?${
       brand ? `brand=${brand}&&` : ''
@@ -202,6 +201,20 @@ const GetMyOrders = async () => {
   );
 };
 
+const ProductRatingsHandler = async (data) => {
+  return await axios.put(
+    `${process.env.REACT_APP_API_ENDPOINT}/product/rating`,
+    data,
+    {
+      headers: {
+        Authorization: `Bearer ${token()}`,
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true,
+    }
+  );
+};
+
 export {
   AddProduct,
   AddToCart,
@@ -212,6 +225,7 @@ export {
   GetProductsHandler,
   GetWishList,
   ImageUpload,
+  ProductRatingsHandler,
   RemoveCartProduct,
   cencelOrder,
 };

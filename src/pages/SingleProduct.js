@@ -14,6 +14,7 @@ import {
   GetCart,
   GetProductById,
   GetProductsHandler,
+  ProductRatingsHandler,
 } from '../functions/products';
 import watch from '../images/watch.jpg';
 
@@ -33,6 +34,8 @@ const SingleProduct = () => {
   // loading states
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingProds, setIsLoadingProds] = useState(true);
+  const [star, setStar] = useState(null);
+  const [comment, setComment] = useState('');
 
   const productId = location?.pathname?.split('/')[2];
 
@@ -131,6 +134,35 @@ const SingleProduct = () => {
     }
   };
 
+  const addRatings = (e) => {
+    e?.preventDefault();
+
+    if (!star) {
+      toast.error('Please add star rating.');
+      return false;
+    } else if (!comment) {
+      toast.error('Please write Review About the Product.');
+      return false;
+    } else {
+      const data = {
+        star,
+        comment,
+        prodId: productId,
+      };
+
+      ProductRatingsHandler(data)
+        ?.then((res) => {
+          if (res && res?.data) {
+            toast?.success('Ratings Added Successfully.');
+            window?.location?.reload();
+          }
+        })
+        .catch(() => {
+          toast?.error('Failed please try again !!');
+        });
+    }
+  };
+
   useEffect(() => {
     getPopularProductsDataHandler();
     getUserCart();
@@ -149,7 +181,7 @@ const SingleProduct = () => {
   return (
     <>
       <Meta title={'Product Name'} />
-      <BreadCrumb title="Product Name" />
+      <BreadCrumb title={productData?.title} />
       <Container class1="main-product-wrapper py-5 home-wrapper-2">
         <div className="row">
           <div className="col-6">
@@ -181,14 +213,20 @@ const SingleProduct = () => {
               <div className="border-bottom py-3">
                 <p className="price">$ {productData?.price}</p>
                 <div className="d-flex align-items-center gap-10">
-                  <ReactStars
-                    count={5}
-                    size={24}
-                    value={productData?.totalrating}
-                    edit={false}
-                    activeColor="#ffd700"
-                  />
-                  {/* <p className="mb-0 t-review">( 2 Reviews )</p> */}
+                  {productData?.totalrating && (
+                    <ReactStars
+                      count={5}
+                      size={24}
+                      value={Number(productData?.totalrating)}
+                      edit={false}
+                      activeColor="#ffd700"
+                    />
+                  )}
+                  {productData?.ratings?.length > 0 && (
+                    <p className="mb-0 t-review">
+                      ( {productData?.ratings?.length} Reviews )
+                    </p>
+                  )}
                 </div>
                 <a className="review-btn" href="#review">
                   Write a Review
@@ -213,8 +251,9 @@ const SingleProduct = () => {
                 </div>
                 <div className="d-flex gap-10 align-items-center my-2">
                   <h3 className="product-heading">Availablity :</h3>
-                  <p className="product-data">In Stock</p>
+                  <p className="product-data badge bg-secondary">In Stock</p>
                 </div>
+
                 {/* <div className="d-flex gap-10 flex-column mt-2 mb-3">
                   <h3 className="product-heading">Size :</h3>
                   <div className="d-flex flex-wrap gap-15">
@@ -232,6 +271,7 @@ const SingleProduct = () => {
                     </span>
                   </div>
                 </div> */}
+
                 {!isAlreadyAdded && (
                   <div className="d-flex gap-10 flex-column mt-2 mb-3">
                     <h3 className="product-heading">Color :</h3>
@@ -336,43 +376,29 @@ const SingleProduct = () => {
           </div>
         </div>
       </Container>
-      {/* <Container class1="reviews-wrapper home-wrapper-2">
+
+      <Container class1="reviews-wrapper home-wrapper-2">
         <div className="row">
           <div className="col-12">
             <h3 id="review">Reviews</h3>
             <div className="review-inner-wrapper">
               <div className="review-head d-flex justify-content-between align-items-end">
-                <div>
-                  <h4 className="mb-2">Customer Reviews</h4>
-                  <div className="d-flex align-items-center gap-10">
-                    <ReactStars
-                      count={5}
-                      size={24}
-                      value={4}
-                      edit={false}
-                      activeColor="#ffd700"
-                    />
-                    <p className="mb-0">Based on 2 Reviews</p>
-                  </div>
-                </div>
-                {orderedProduct && (
-                  <div>
-                    <a className="text-dark text-decoration-underline" href="">
-                      Write a Review
-                    </a>
-                  </div>
-                )}
+                <h4 className="mb-2">Customer Reviews</h4>
               </div>
               <div className="review-form py-4">
                 <h4>Write a Review</h4>
-                <form action="" className="d-flex flex-column gap-15">
+                <form
+                  onSubmit={addRatings}
+                  className="d-flex flex-column gap-15"
+                >
                   <div>
                     <ReactStars
                       count={5}
                       size={24}
-                      value={4}
+                      value={star}
                       edit={true}
                       activeColor="#ffd700"
+                      onChange={(rate) => setStar(rate)}
                     />
                   </div>
                   <div>
@@ -383,6 +409,8 @@ const SingleProduct = () => {
                       cols="30"
                       rows="4"
                       placeholder="Comments"
+                      value={comment}
+                      onChange={(e) => setComment(e?.target?.value)}
                     ></textarea>
                   </div>
                   <div className="d-flex justify-content-end">
@@ -391,30 +419,28 @@ const SingleProduct = () => {
                 </form>
               </div>
               <div className="reviews mt-4">
-                <div className="review">
-                  <div className="d-flex gap-10 align-items-center">
-                    <h6 className="mb-0">clicon</h6>
-                    <ReactStars
-                      count={5}
-                      size={24}
-                      value={4}
-                      edit={false}
-                      activeColor="#ffd700"
-                    />
-                  </div>
-                  <p className="mt-3">
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                    Consectetur fugit ut excepturi quos. Id reprehenderit
-                    voluptatem placeat consequatur suscipit ex. Accusamus dolore
-                    quisquam deserunt voluptate, sit magni perspiciatis quas
-                    iste?
-                  </p>
-                </div>
+                {productData?.ratings &&
+                  productData?.ratings?.length > 0 &&
+                  productData?.ratings?.map((rating) => (
+                    <div key={rating?._id} className="review">
+                      <div className="d-flex gap-10 align-items-center">
+                        <ReactStars
+                          count={5}
+                          size={24}
+                          value={rating?.star}
+                          edit={false}
+                          activeColor="#ffd700"
+                        />
+                      </div>
+                      <p className="mt-3">{rating?.comment}</p>
+                    </div>
+                  ))}
               </div>
             </div>
           </div>
         </div>
-      </Container> */}
+      </Container>
+
       <Container class1="popular-wrapper py-5 home-wrapper-2">
         <div className="row">
           <div className="col-12">

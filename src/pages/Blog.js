@@ -31,7 +31,7 @@ const Blog = () => {
       <BreadCrumb title="Blogs" />
       <Container class1="blog-wrapper home-wrapper-2 py-5">
         <div className="row">
-          <div className="col-3">
+          {/* <div className="col-3">
             <div className="filter-card mb-3">
               <h3 className="filter-title">Find By Categories</h3>
               <div>
@@ -43,8 +43,8 @@ const Blog = () => {
                 </ul>
               </div>
             </div>
-          </div>
-          <div className="col-9">
+          </div> */}
+          <div className="col-12">
             <div className="row">
               {!isLoading && !blogs?.length && (
                 <p className="text-center fs-3">No data</p>
@@ -54,7 +54,7 @@ const Blog = () => {
                 blogs &&
                 blogs?.length > 0 &&
                 blogs?.map((blog) => (
-                  <div key={blog?._id} className="col-6 mb-3">
+                  <div key={blog?._id} className="col-4 mb-3">
                     <BlogCard data={blog} />
                   </div>
                 ))}

@@ -2,8 +2,6 @@ import React from 'react';
 import ReactStars from 'react-rating-stars-component';
 import { Link, useLocation } from 'react-router-dom';
 import { AddToWishList } from '../functions/products';
-import addcart from '../images/add-cart.svg';
-import prodcompare from '../images/prodcompare.svg';
 import view from '../images/view.svg';
 import wish from '../images/wish.svg';
 
@@ -16,7 +14,6 @@ const ProductCard = (props) => {
     try {
       await AddToWishList({ prodId: pid });
     } catch (err) {
-      console.log('err > ', err);
     } finally {
     }
   };
@@ -83,13 +80,15 @@ const ProductCard = (props) => {
               <div className="product-details">
                 <h6 className="brand">{prod?.brand}</h6>
                 <h5 className="product-title">{prod?.title}</h5>
-                <ReactStars
-                  count={5}
-                  size={24}
-                  value={prod?.totalRating?.toString()}
-                  edit={false}
-                  activeColor="#ffd700"
-                />
+                {prod?.totalrating && (
+                  <ReactStars
+                    count={5}
+                    size={24}
+                    value={Number(prod.totalrating)}
+                    edit={false}
+                    activeColor="#ffd700"
+                  />
+                )}
                 <p
                   className={`description ${
                     grid === 12 ? 'd-block' : 'd-none'
@@ -107,9 +106,9 @@ const ProductCard = (props) => {
               className="action-bar position-absolute"
             >
               <div className="d-flex flex-column gap-15">
-                <button className="border-0 bg-transparent">
+                {/* <button className="border-0 bg-transparent">
                   <img src={prodcompare} alt="compare" />
-                </button>
+                </button> */}
                 <Link
                   to={`${
                     location.pathname === '/'
@@ -122,9 +121,9 @@ const ProductCard = (props) => {
                 >
                   <img src={view} alt="view" />
                 </Link>
-                <button className="border-0 bg-transparent">
+                {/* <button className="border-0 bg-transparent">
                   <img src={addcart} alt="addcart" />
-                </button>
+                </button> */}
               </div>
             </div>
           </div>

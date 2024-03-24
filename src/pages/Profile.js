@@ -12,7 +12,7 @@ import { useAuth } from '../context/auth';
 import { EditUserProfileHandler } from '../functions/auththenticaion';
 
 const Profile = () => {
-  const { currentUser, isLoadingUser } = useAuth();
+  const { currentUser, isLoadingUser, LogoutHandler } = useAuth();
 
   const [editMode, setEditMode] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -119,6 +119,16 @@ const Profile = () => {
                           onClick={() => setEditMode(true)}
                         >
                           Edit Profile
+                        </button>
+
+                        <button
+                          disabled={isLoadingUser}
+                          className="button border-0 bg-danger"
+                          type="button"
+                          onClick={() => LogoutHandler()}
+                          style={{ cursor: 'pointer' }}
+                        >
+                          Logout
                         </button>
                       </div>
                     </div>

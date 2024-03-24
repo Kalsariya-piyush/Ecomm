@@ -1,14 +1,14 @@
+import { useFormik } from 'formik';
 import React, { useState } from 'react';
-import BreadCrumb from '../components/BreadCrumb';
-import Meta from '../components/Meta';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import * as yup from 'yup';
+import BreadCrumb from '../components/BreadCrumb';
 import Container from '../components/Container';
 import CustomInput from '../components/CustomInput';
-import { useFormik } from 'formik';
-import * as yup from 'yup';
-import { forgotPasswordHandler } from '../functions/auththenticaion';
-import { toast } from 'react-toastify';
+import Meta from '../components/Meta';
 import { ERRORS } from '../constants';
+import { forgotPasswordHandler } from '../functions/auththenticaion';
 
 const Forgotpassword = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -89,8 +89,8 @@ const Forgotpassword = () => {
                   error={touched?.email && errors?.email}
                 />
 
-                <div>
-                  <div className="mt-3 d-flex justify-content-center flex-column gap-15 align-items-center">
+                <div className="d-flex mt-3 gap-4 justify-content-center align-items-center">
+                  <div className="d-flex justify-content-center flex-column gap-15 align-items-center">
                     <button
                       disabled={isLoading}
                       className="button border-0"
@@ -98,8 +98,11 @@ const Forgotpassword = () => {
                     >
                       {isLoading ? 'Loading...' : 'Submit'}
                     </button>
-                    <Link to="/login">Cancel</Link>
                   </div>
+
+                  <Link className="button border-0 bg-danger" to="/login">
+                    Cancel
+                  </Link>
                 </div>
               </form>
             </div>

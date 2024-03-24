@@ -1,16 +1,54 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Typeahead } from 'react-bootstrap-typeahead';
+import 'react-bootstrap-typeahead/css/Typeahead.css';
 import { BsSearch } from 'react-icons/bs';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/auth';
+import { GetProductsHandler } from '../functions/products';
 import cart from '../images/cart.svg';
 import user from '../images/user.svg';
 import wishlist from '../images/wishlist.svg';
 
 const Header = () => {
+  const navigate = useNavigate();
+
   const { currentUser, isLoadingUser, LogoutHandler, cartItem, totalAmount } =
     useAuth();
 
-  const navigate = useNavigate();
+  const [paginate, setPaginate] = useState(true);
+  const [products, setProducts] = useState([]);
+  const [productOpt, setProductOpt] = useState([]);
+
+  // loading states
+  const [isLoadingProds, setIsLoadingProds] = useState(true);
+
+  const getProductDataHandler = async () => {
+    setIsLoadingProds(true);
+    try {
+      const res = await GetProductsHandler();
+      setProducts(res);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoadingProds(false);
+    }
+  };
+
+  useEffect(() => {
+    getProductDataHandler();
+  }, []);
+
+  useEffect(() => {
+    if (!isLoadingProds && products?.length > 0) {
+      let data = [];
+      for (let index = 0; index < products?.length; index++) {
+        const ele = products[index];
+        data?.push({ id: index, prod: ele?._id, name: ele?.title });
+      }
+
+      setProductOpt(data);
+    }
+  }, [isLoadingProds, products]);
 
   return (
     <>
@@ -43,12 +81,19 @@ const Header = () => {
             </div>
             <div className="col-6">
               <div className="input-group">
-                <input
-                  type="text"
-                  className="form-control py-2"
-                  placeholder="Search Product Here..."
-                  aria-label="Search Product Here..."
-                  aria-describedby="basic-addon2"
+                <Typeahead
+                  id="pagination-example"
+                  onPaginate={() => console.log('Results paginated')}
+                  options={productOpt}
+                  onChange={(selected) => {
+                    if (selected && selected?.length > 0) {
+                      navigate(`/product/${selected[0]?.prod}`);
+                    }
+                  }}
+                  minLength={2}
+                  paginate={paginate}
+                  labelKey={'name'}
+                  placeholder="Search for Products ..."
                 />
                 <span className="input-group-text p-3" id="basic-addon2">
                   <BsSearch className="fs-6" />

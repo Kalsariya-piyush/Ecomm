@@ -9,8 +9,8 @@ import CustomInput from '../components/CustomInput';
 import Meta from '../components/Meta';
 import { HandleSetCookie } from '../constants';
 // import { useAuth } from '../context/auth';
-import { LoginHandler } from '../functions/auththenticaion';
 import { useAuth } from '../context/auth';
+import { LoginHandler } from '../functions/auththenticaion';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -98,7 +98,7 @@ const Login = () => {
                   />
 
                   <CustomInput
-                    type="text"
+                    type="password"
                     id="password"
                     name="password"
                     placeholder="Password"

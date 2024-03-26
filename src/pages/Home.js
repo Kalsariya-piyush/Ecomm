@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Marquee from 'react-fast-marquee';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import BlogCard from '../components/BlogCard';
 import Container from '../components/Container';
 import ProductCard from '../components/ProductCard';
@@ -12,7 +12,6 @@ import { GetProductsHandler } from '../functions/products';
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [blogs, setBlogs] = useState(null);
-  let location = useLocation();
 
   // loading states
   const [isLoadingProds, setIsLoadingProds] = useState(true);
@@ -47,8 +46,6 @@ const Home = () => {
     getBlogsDataHandler();
   }, []);
 
-  console.log('products', products);
-
   return (
     <>
       <Container class1="home-wrapper-1 py-5">
@@ -62,18 +59,9 @@ const Home = () => {
               />
               <div className="main-banner-content position-absolute">
                 <h4>SUPERCHARGED FOR PROS.</h4>
-                <h5>{products[0]?.title}</h5>
-                <p>From $999.00 or ${products[0]?.price}/mo.</p>
-                <Link
-                  to={`${
-                    location.pathname === '/'
-                      ? `/product/${products[0]?._id}`
-                      : location.pathname === `/product/${products[0]?._id}`
-                      ? `/product/${products[0]?._id}`
-                      : `${products[0]?._id}`
-                  }`}
-                  className="button"
-                >
+                <h5>iPad S13+ Pro.</h5>
+                <p>From $999.00 or $41.62/mo.</p>
+                <Link className="button" to={'/product'}>
                   BUY NOW
                 </Link>
               </div>
@@ -82,104 +70,60 @@ const Home = () => {
           <div className="col-6">
             <div className="d-flex flex-wrap gap-10 justify-content-between align-items-center">
               <div className="small-banner position-relative">
-                <Link
-                  to={`${
-                    location.pathname === '/'
-                      ? `/product/${products[1]?._id}`
-                      : location.pathname === `/product/${products[1]?._id}`
-                      ? `/product/${products[1]?._id}`
-                      : `${products[1]?._id}`
-                  }`}
-                  className="w-100"
-                >
-                  <img
-                    src="images/catbanner-01.jpg"
-                    className="img-fluid rounded-3 w-100"
-                    alt="main banner"
-                  />
-                  <div className="small-banner-content position-absolute">
-                    <h4>NEW ARRIVAL</h4>
-                    <h5>{products[1]?.title}</h5>
-                    <p>
-                      From $999.00 <br /> or ${products[1]?.price}/mo.
-                    </p>
-                  </div>
-                </Link>
+                <img
+                  src="images/catbanner-01.jpg"
+                  className="img-fluid rounded-3"
+                  alt="main banner"
+                />
+                <div className="small-banner-content position-absolute">
+                  <h4>Best Sake</h4>
+                  <h5>iPad S13+ Pro.</h5>
+                  <p>
+                    From $999.00 <br /> or $41.62/mo.
+                  </p>
+                </div>
               </div>
               <div className="small-banner position-relative">
-                <Link
-                  to={`${
-                    location.pathname === '/'
-                      ? `/product/${products[2]?._id}`
-                      : location.pathname === `/product/${products[2]?._id}`
-                      ? `/product/${products[2]?._id}`
-                      : `${products[2]?._id}`
-                  }`}
-                  className="w-100"
-                >
-                  <img
-                    src="images/catbanner-02.jpg"
-                    className="img-fluid rounded-3 w-100"
-                    alt="main banner"
-                  />
-                  <div className="small-banner-content position-absolute">
-                    <h4>Best Sake</h4>
-                    <h5>{products[2]?.title}</h5>
-                    <p>
-                      From $999.00 <br /> or ${products[2]?.price}/mo.
-                    </p>
-                  </div>
-                </Link>
+                <img
+                  src="images/catbanner-02.jpg"
+                  className="img-fluid rounded-3"
+                  alt="main banner"
+                />
+                <div className="small-banner-content position-absolute">
+                  <h4>NEW ARRIVAL</h4>
+                  <h5>But IPad Air</h5>
+                  <p>
+                    From $999.00 <br /> or $41.62/mo.
+                  </p>
+                </div>
               </div>
-              <div className="small-banner position-relative">
-                <Link
-                  to={`${
-                    location.pathname === '/'
-                      ? `/product/${products[3]?._id}`
-                      : location.pathname === `/product/${products[3]?._id}`
-                      ? `/product/${products[3]?._id}`
-                      : `${products[3]?._id}`
-                  }`}
-                  className="w-100"
-                >
-                  <img
-                    src="images/catbanner-03.jpg"
-                    className="img-fluid rounded-3 w-100"
-                    alt="main banner"
-                  />
-                  <div className="small-banner-content position-absolute">
-                    <h4>Best Sake</h4>
-                    <h5>{products[3]?.title}</h5>
-                    <p>
-                      From $999.00 <br /> or ${products[3]?.price}/mo.
-                    </p>
-                  </div>
-                </Link>
+              <div className="small-banner position-relative ">
+                <img
+                  src="images/catbanner-03.jpg"
+                  className="img-fluid rounded-3"
+                  alt="main banner"
+                />
+                <div className="small-banner-content position-absolute">
+                  <h4>NEW ARRIVAL</h4>
+                  <h5>But IPad Air</h5>
+                  <p>
+                    From $999.00 <br /> or $41.62/mo.
+                  </p>
+                </div>
               </div>
-              <div className="small-banner position-relative">
-                <Link
-                  to={`${
-                    location.pathname === '/'
-                      ? `/product/${products[4]?._id}`
-                      : location.pathname === `/product/${products[4]?._id}`
-                      ? `/product/${products[4]?._id}`
-                      : `${products[4]?._id}`
-                  }`}
-                  className="w-100"
-                >
-                  <img
-                    src="images/catbanner-04.jpg"
-                    className="img-fluid rounded-3 w-100"
-                    alt="main banner"
-                  />
-                  <div className="small-banner-content position-absolute">
-                    <h4>Best Sake</h4>
-                    <h5>{products[4]?.title}</h5>
-                    <p>
-                      From $999.00 <br /> or ${products[4]?.price}/mo.
-                    </p>
-                  </div>
-                </Link>
+              <div className="small-banner position-relative ">
+                <img
+                  src="images/catbanner-04.jpg"
+                  className="img-fluid rounded-3"
+                  alt="main banner"
+                />
+                <div className="small-banner-content position-absolute">
+                  <h4>NEW ARRIVAL</h4>
+                  <h5>But IPad Air</h5>
+                  <p>
+                    From $999.00 <br /> or $41.62/mo.
+                  </p>
+                </div>
               </div>
             </div>
           </div>

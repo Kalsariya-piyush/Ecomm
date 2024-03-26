@@ -62,16 +62,13 @@ const Home = () => {
               />
               <div className="main-banner-content position-absolute">
                 <h4>SUPERCHARGED FOR PROS.</h4>
-                <h5>{products[0]?.title}</h5>
-                <p>From $999.00 or ${products[0]?.price}/mo.</p>
+
+                <h5>iPad S13+ Pro.</h5>
+                <p>From $999.00 or $41.62/mo.</p>
+                <Link className="button" to={'/product'}>
+
                 <Link
-                  to={`${
-                    location.pathname === '/'
-                      ? `/product/${products[0]?._id}`
-                      : location.pathname === `/product/${products[0]?._id}`
-                      ? `/product/${products[0]?._id}`
-                      : `${products[0]?._id}`
-                  }`}
+                  to={'/product'}
                   className="button"
                 >
                   BUY NOW

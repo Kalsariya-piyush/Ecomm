@@ -137,7 +137,10 @@ const SingleProduct = () => {
   const addRatings = (e) => {
     e?.preventDefault();
 
-    if (!star) {
+    if (!currentUser && !currentUser?._id) {
+      navigate('/login');
+      return false;
+    } else if (!star) {
       toast.error('Please add star rating.');
       return false;
     } else if (!comment) {
@@ -275,7 +278,11 @@ const SingleProduct = () => {
                 {!isAlreadyAdded && (
                   <div className="d-flex gap-10 flex-column mt-2 mb-3">
                     <h3 className="product-heading">Color :</h3>
-                    <Color color={productData?.color} setColor={setColor} />
+                    <Color
+                      color={productData?.color}
+                      setColor={setColor}
+                      selectedColor={color}
+                    />
                   </div>
                 )}
 

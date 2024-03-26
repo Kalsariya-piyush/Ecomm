@@ -154,18 +154,20 @@ const Header = () => {
                   )}
                 </div>
                 <div>
-                  <Link
-                    to="/cart"
-                    className="d-flex align-items-center gap-10 text-white"
-                  >
-                    <img src={cart} alt="cart" />
-                    <div className="d-flex flex-column gap-10">
-                      <span className="badge bg-white text-dark">
-                        {cartItem.length}
-                      </span>
-                      {totalAmount && <p className="mb-0">$ {totalAmount}</p>}
-                    </div>
-                  </Link>
+                  {currentUser && (
+                    <Link
+                      to="/cart"
+                      className="d-flex align-items-center gap-10 text-white"
+                    >
+                      <img src={cart} alt="cart" />
+                      <div className="d-flex flex-column gap-10">
+                        <span className="badge bg-white text-dark">
+                          {cartItem.length}
+                        </span>
+                        {totalAmount && <p className="mb-0">$ {totalAmount}</p>}
+                      </div>
+                    </Link>
+                  )}
                 </div>
               </div>
             </div>

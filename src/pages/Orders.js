@@ -67,8 +67,14 @@ const Orders = () => {
             )}
 
             {!isLoading && orders?.length > 0 && (
-              <div className="row">
-                <div className="col-12">
+              <div
+                className="row"
+                style={{ borderRadius: '10px', overflow: 'hidden' }}
+              >
+                <div
+                  className="col-12 pt-3 pb-1"
+                  style={{ background: '#febd69' }}
+                >
                   <div className="row">
                     <div className="col-3">
                       <h5>Order Id</h5>
@@ -88,21 +94,24 @@ const Orders = () => {
                   </div>
                 </div>
 
-                <div className="col-12 mt-3">
+                <div className="col-12">
                   {orders?.map((order, index) => (
                     <div
-                      style={{ background: '#febd69' }}
+                      style={{
+                        background: '#232f3e',
+                        borderBottom: '1px solid gray',
+                      }}
                       key={index}
-                      className="row my-3 pt-3  position-relative"
+                      className="row pt-3 text-white position-relative"
                     >
                       <div className="col-3">
                         <p>{order?._id}</p>
                       </div>
                       <div className="col-3">
-                        <p>{order?.totalPrice}</p>
+                        <p>$ {order?.totalPrice}</p>
                       </div>
                       <div className="col-2">
-                        <p>{order?.totalPriceAfterDiscount}</p>
+                        <p>$ {order?.totalPriceAfterDiscount}</p>
                       </div>
                       <div className="col-2">
                         <p
@@ -137,10 +146,10 @@ const Orders = () => {
                           Detail
                         </Link>
                       </div>
-                      <div className="col-12 text-white">
+                      {/* <div className="col-12 text-white">
                         <div
                           className="row pt-3"
-                          style={{ backgroundColor: '#232f3e' }}
+                          // style={{ backgroundColor: '#232f3e' }}
                         >
                           <div className="col-3">
                             <h6>Product Name</h6>
@@ -180,7 +189,7 @@ const Orders = () => {
                             </div>
                           ))}
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                   ))}
                 </div>

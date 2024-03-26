@@ -14,7 +14,7 @@ const Footer = () => {
                 <h2 className="mb-0 text-white">Sign Up for Newsletter</h2>
               </div>
             </div>
-            <div className="col-7">
+            {/* <div className="col-7">
               <div className="input-group">
                 <input
                   type="text"
@@ -27,7 +27,7 @@ const Footer = () => {
                   Subscribe
                 </span>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </footer>

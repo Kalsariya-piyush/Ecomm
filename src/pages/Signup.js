@@ -1,5 +1,6 @@
 import { useFormik } from 'formik';
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import BreadCrumb from '../components/BreadCrumb';
@@ -7,9 +8,8 @@ import Container from '../components/Container';
 import CustomInput from '../components/CustomInput';
 import Meta from '../components/Meta';
 import { getCharacterValidationError } from '../constants';
-import { SignUpHandler } from '../functions/auththenticaion';
 import { useAuth } from '../context/auth';
-import { useNavigate } from 'react-router-dom';
+import { SignUpHandler } from '../functions/auththenticaion';
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -163,7 +163,7 @@ const Signup = () => {
                   />
 
                   <CustomInput
-                    type="text"
+                    type="password"
                     id="password"
                     name="password"
                     placeholder="Password"

@@ -1,22 +1,55 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { CiHeart } from 'react-icons/ci';
 import ReactStars from 'react-rating-stars-component';
 import { Link, useLocation } from 'react-router-dom';
-import { AddToWishList } from '../functions/products';
+import { toast } from 'react-toastify';
+import { useAuth } from '../context/auth';
+import { AddToWishList, GetWishList } from '../functions/products';
 import view from '../images/view.svg';
-import wish from '../images/wish.svg';
 
 const ProductCard = (props) => {
   const { grid, data } = props;
+  const { isLoadingUser } = useAuth();
+
+  const [wishListData, setWishListData] = useState(null);
 
   let location = useLocation();
+
+  const getWishList = async () => {
+    try {
+      const res = await GetWishList();
+      setWishListData(res);
+    } catch (err) {
+      console.log('error > ', err);
+    } finally {
+    }
+  };
 
   const addToWishList = async (pid) => {
     try {
       await AddToWishList({ prodId: pid });
+      getWishList();
+      toast.success('Product added to wishlist.');
     } catch (err) {
     } finally {
     }
   };
+
+  useEffect(() => {
+    if (!isLoadingUser) getWishList();
+  }, [isLoadingUser]);
+
+  // if (data && wishListData) {
+  //   data?.forEach((product) => {
+  //     wishListData?.wishlist?.forEach((p) => {
+  //       if (p?._id === product?._id) {
+  //         product.isFav = true;
+  //       } else {
+  //         product.isFav = false;
+  //       }
+  //     });
+  //   });
+  // }
 
   return (
     <>
@@ -28,20 +61,29 @@ const ProductCard = (props) => {
           key={prod?._id}
           style={{
             height: '100%',
+            marginBottom: '20px',
           }}
         >
+          {/* {console.log('prod > ', prod)} */}
           <div
             style={{
               height: '100%',
             }}
             className="product-card position-relative"
           >
+            {console.log('prod?.isFav', prod?.isFav)}
             <div className="wishlist-icon position-absolute">
               <button
                 onClick={() => addToWishList(prod?._id)}
                 className="border-0 bg-transparent"
               >
-                <img src={wish} alt="wishlist" />
+                {/* {!prod?.isFav && <img src={wish} alt="wishlist" />} */}
+                <CiHeart
+                  style={{
+                    fontSize: 20,
+                    color: prod?.isFav ? 'red' : 'black',
+                  }}
+                />
               </button>
             </div>
 

@@ -149,8 +149,8 @@ const Checkout = () => {
       },
       prefill: {
         name: 'clicon',
-        email: 'clicon@example.com',
-        contact: '9999999999',
+        email: 'ecommerce@clicon.com',
+        contact: '9510449518',
       },
       notes: {
         address: 'clicon office',
@@ -306,7 +306,7 @@ const Checkout = () => {
                       <option value="" selected disabled>
                         Select State
                       </option>
-                      <option value="Gujrat">Gujrat</option>
+                      <option value="Gujrat">Gujarat</option>
                     </select>
                     {errors.state && touched.state && (
                       <p className="text-danger">{errors.state}</p>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Marquee from 'react-fast-marquee';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import BlogCard from '../components/BlogCard';
 import Container from '../components/Container';
 import ProductCard from '../components/ProductCard';
@@ -51,7 +51,7 @@ const Home = () => {
 
   return (
     <>
-      <Container class1="home-wrapper-1 py-5">
+      {/* <Container class1="home-wrapper-1 py-5">
         <div className="row">
           <div className="col-6">
             <div className="main-banner position-relative ">
@@ -66,11 +66,10 @@ const Home = () => {
                 <h5>iPad S13+ Pro.</h5>
                 <p>From $999.00 or $41.62/mo.</p>
                 <Link className="button" to={'/product'}>
+                  s
+                </Link>
 
-                <Link
-                  to={'/product'}
-                  className="button"
-                >
+                <Link to={'/product'} className="button">
                   BUY NOW
                 </Link>
               </div>
@@ -181,7 +180,7 @@ const Home = () => {
             </div>
           </div>
         </div>
-      </Container>
+      </Container> */}
       <Container class1="home-wrapper-2 py-5">
         <div className="row">
           <div className="col-12">
